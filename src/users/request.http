@@ -7,3 +7,22 @@ Content-Type: application/json
   "password": "12345622",
   "aoeuaoeaoeuaou": "aoeuaoeu33333"
 }
+
+### Find a user with an id
+GET http://localhost:3000/auth/6
+
+### Find all users with an email
+GET http://localhost:3000/auth?email=test@test.com
+
+### Delete a user
+DELETE http://localhost:3000/auth/8
+
+### Update a user
+PATCH http://localhost:3000/auth/6
+Content-Type: application/json
+
+{
+  "email": "test@testeeeeeooooeeee.com",
+  "password": "12345622"
+}
+
