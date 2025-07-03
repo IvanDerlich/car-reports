@@ -1,0 +1,9 @@
+# @name Create User
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "12345622",
+  "aoeuaoeaoeuaou": "aoeuaoeu33333"
+}
