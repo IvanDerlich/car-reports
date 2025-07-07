@@ -7,9 +7,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
 import { nextTick } from 'process';
-import { UserDto } from 'src/users/dtos/user.dto';
 
-export class SerializedInterceptor implements NestInterceptor {
+
+export function Serialize(dto: any) {
+  return UseInterceptors(new SerializedInterceptor(dto));
+}
+
+
+class SerializedInterceptor implements NestInterceptor {
   constructor(private dto: any) {}
 
   intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
