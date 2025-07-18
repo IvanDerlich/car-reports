@@ -3,22 +3,49 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "unique@test.com",
   "password": "12345622",
   "aoeuaoeaoeuaou": "aoeuaoeu33333"
 }
 
+### Sign in a user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "unique@test.com",
+  "password": "12345622"
+}
+
+### Sign in a user with an invalid password
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "unique@test.com",
+  "password": "aoeuaoeuaoeeu"
+}
+
+### Sign in a user with an invalid email
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "uniquoeauaoe@test.com",
+  "password": "12345622"
+}
+
 ### Find a user with an id
-GET http://localhost:3000/auth/6
+GET http://localhost:3000/auth/11
 
 ### Find all users with an email
 GET http://localhost:3000/auth?email=test@test.com
 
 ### Delete a user
-DELETE http://localhost:3000/auth/80
+DELETE http://localhost:3000/auth/12
 
 ### Update a user
-PATCH http://localhost:3000/auth/6
+PATCH http://localhost:3000/auth/5
 Content-Type: application/json
 
 {
