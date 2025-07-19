@@ -16,6 +16,7 @@ import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/seralized.interceptor';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
+import { CurrentUser } from './decorator/decorator';
 
 @Serialize(UserDto)
 @Controller('auth')
@@ -26,8 +27,8 @@ export class UsersController {
   ) {}
 
   @Get('whoami')
-  whoAmI(@Session() session: any) : Promise<User | null> {
-    return this.usersService.findOneById(session.userId)
+  whoAmI(@CurrentUser() user: User) {
+    return user
   }
 
   @Post('signout')
