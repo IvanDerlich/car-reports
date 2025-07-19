@@ -1,13 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { hash, verify } from 'argon2';
+import { User } from './user.entity';
 
 
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async signup(email: string, password: string) {
+  async signup(email: string, password: string): Promise<User> {
 
     // See if email is in use
     const users = await this.usersService.find(email);
@@ -23,7 +24,7 @@ export class AuthService {
     return user;
   }
 
-  async signin(email: string, password: string) {
+  async signin(email: string, password: string): Promise<User> {
     const [user] = await this.usersService.find(email);
     if (!user) {
       throw new NotFoundException('email not found');
@@ -33,5 +34,7 @@ export class AuthService {
     if (!passwordMatch) {
       throw new BadRequestException('invalid password');
     }
+
+    return user;
   }
 }

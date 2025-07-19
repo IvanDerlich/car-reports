@@ -15,6 +15,7 @@ import { UserDto } from 'src/users/dtos/user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/seralized.interceptor';
 import { AuthService } from './auth.service';
+import { User } from './user.entity';
 
 @Serialize(UserDto)
 @Controller('auth')
@@ -25,33 +26,48 @@ export class UsersController {
   ) {}
 
   @Post('signup')
-  createUser(@Body() body: CreateUserDto) {
-    return this.authService.signup(body.email, body.password)
+  async createUser(
+    @Body() body: CreateUserDto,
+    @Session() session: any
+  ) : Promise<User> {
+    const user = await this.authService.signup(body.email, body.password)
+    session.userId = user.id
+    return user
   }
 
   @Post('signin')
-  signin(@Body() body: CreateUserDto) {
-    return this.authService.signin(body.email, body.password)
+  async signin(
+    @Body() body: CreateUserDto,
+    @Session() session: any
+  ) : Promise<User> {
+    const user = await this.authService.signin(body.email, body.password)
+    session.userId = user.id
+    return user
   }
 
   @Get(':id')
-  findUser(@Param('id') id: string ) {
+  findUser(@Param('id') id: string ) : Promise<User> {
     return this.usersService.findOneById(parseInt(id))
   }
 
   // Finds all users with an email
   @Get()
-  findAllUsersByEmail(@Query('email') email: string) {
+  findAllUsersByEmail(
+    @Query('email') email: string
+  ) : Promise<User[]> {
     return this.usersService.find(email)
   }
 
   @Delete(':id')
-  removeUser(@Param('id') id: string) {
+  removeUser(@Param('id') id: string) : Promise<User> {
     return this.usersService.remove(parseInt(id))
   }
 
   @Patch(':id')
-  updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+  updateUser(
+    @Param('id') id: string,
+    @Body() body: UpdateUserDto
+  ) : Promise<User> {
     return this.usersService.update(parseInt(id), body)
   }
 }
