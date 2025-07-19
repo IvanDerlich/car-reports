@@ -8,17 +8,6 @@ Content-Type: application/json
   "aoeuaoeaoeuaou": "aoeuaoeu33333"
 }
 
-
-### Set a color
-GET http://localhost:3000/auth/colors/red
-
-### Get a color
-GET http://localhost:3000/auth/colors
-
-### Set a color
-GET http://localhost:3000/auth/colors/blue
-
-
 ### Sign in a user
 POST http://localhost:3000/auth/signin
 Content-Type: application/json
