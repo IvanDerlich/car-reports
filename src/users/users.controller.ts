@@ -25,6 +25,17 @@ export class UsersController {
     private authService: AuthService
   ) {}
 
+  @Get('whoami')
+  whoAmI(@Session() session: any) : Promise<User | null> {
+    return this.usersService.findOneById(session.userId)
+  }
+
+  @Post('signout')
+  signOut(@Session() session: any) {
+    session.userId = null
+    return { message: 'Signed out successfully' }
+  }
+
   @Post('signup')
   async createUser(
     @Body() body: CreateUserDto,
@@ -46,7 +57,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findUser(@Param('id') id: string ) : Promise<User> {
+  findUser(@Param('id') id: string ) : Promise<User | null> {
     return this.usersService.findOneById(parseInt(id))
   }
 

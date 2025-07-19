@@ -13,9 +13,15 @@ POST http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {
-  "email": "unique@test.com",
+  "email": "unique2@test.com",
   "password": "12345622"
 }
+
+### Get the current user
+GET http://localhost:3000/auth/whoami
+
+### Sign out
+POST http://localhost:3000/auth/signout
 
 ### Sign in a user with an invalid password
 POST http://localhost:3000/auth/signin
