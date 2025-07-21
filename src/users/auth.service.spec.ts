@@ -4,47 +4,46 @@ import { UsersService } from './users.service';
 import { User } from './user.entity';
 
 
-it('can create an instance of auth service', async() => {
+describe('AuthService', () => {
 
-  const fakeUser = new User()
-  fakeUser.email = 'asdf@asdf.com';
-  fakeUser.password = 'asdf';
-  fakeUser.id = 1;
+  let service: AuthService;
 
-  // Create a fake copy of the users service
-  const fakeUsersService: Partial<UsersService> = {
-    find: () => Promise.resolve([]),
-    create: (email: string, password: string) => Promise.resolve(fakeUser)
-  }
+  beforeAll(async () => {
+    // Create a fake copy of the users service
+    const fakeUsersService: Partial<UsersService> = {
+      find: () => Promise.resolve([]),
+      create: (email: string, password: string) => Promise.resolve((()=>{
+        const user = new User()
+        user.email = email;
+        user.password = password;
+        return user;
+      })())
+    }
 
-  const module = await Test.createTestingModule({
-    providers: [
-      AuthService,
-      {
-        provide: UsersService,
-        useValue: fakeUsersService
-      }
-    ]
-  }).compile();
+    const module = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        {
+          provide: UsersService,
+          useValue: fakeUsersService
+        }
+      ]
+    }).compile();
 
-  const service = module.get(AuthService);
+    service = module.get(AuthService);
+  })
 
-  expect(service).toBeDefined();
+  it('can create an instance of auth service', async() => {
+    expect(service).toBeDefined();
+  })
 
-});
+  it('creates a new user with a salted and hashed password', async() => {
+    const user: User = await service.signup('asdf@asdf.com', 'asdf');
+    // console.log(user);
+    expect(user.password).not.toEqual('asdf');
+    const [,,,,salt, hash] = user.password.split('$');
+    expect(salt).toBeDefined();
+    expect(hash).toBeDefined();
+  })
 
-// describe('AuthService', () => {
-//   let service: AuthService;
-
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       providers: [AuthService, UsersService],
-//     }).compile();
-
-//     service = module.get<AuthService>(AuthService);
-//   });
-
-//   it('should be defined', () => {
-//     expect(service).toBeDefined();
-//   });
-// });
+})
