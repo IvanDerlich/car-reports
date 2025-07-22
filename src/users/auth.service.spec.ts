@@ -1,9 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { hash } from 'argon2';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -54,9 +53,7 @@ describe('AuthService', () => {
 
   describe('test against the same user', () => {
     beforeEach(async () => {
-      const user = new User();
-      user.email = 'asdf@asdf.com';
-      user.password = await hash('asdf');
+      const user = await service.signup('asdf@asdf.com', 'asdf');
       fakeUsersService.find = () => Promise.resolve([user]);
     });
 
