@@ -40,22 +40,10 @@ describe('AuthService', () => {
 
   it('creates a new user with a salted and hashed password', async () => {
     const user: User = await service.signup('asdf@asdf.com', 'asdf');
-    // console.log(user);
     expect(user.password).not.toEqual('asdf');
     const [, , , , salt, hash] = user.password.split('$');
     expect(salt).toBeDefined();
     expect(hash).toBeDefined();
-  });
-
-  it('throws an error if user signs up with email that is in use', async () => {
-    const user = new User();
-    user.email = 'asdf@asdf.com';
-    user.password = 'asdf';
-
-    fakeUsersService.find = () => Promise.resolve([user]);
-    await expect(service.signup('asdf@asdf.com', 'asdf')).rejects.toThrow(
-      BadRequestException,
-    );
   });
 
   it('throws if signin is called with an unused email', async () => {
@@ -64,13 +52,29 @@ describe('AuthService', () => {
     );
   });
 
-  it('throws if an invalid password is provided', async () => {
-    const user = new User();
-    user.email = 'asdf@asdf.com';
-    user.password = await hash('asdf');
-    fakeUsersService.find = () => Promise.resolve([user]);
-    await expect(service.signin('asdf@asdf.com', 'asdfe')).rejects.toThrow(
-      BadRequestException,
-    );
+  describe('test against the same user', () => {
+    beforeEach(async () => {
+      const user = new User();
+      user.email = 'asdf@asdf.com';
+      user.password = await hash('asdf');
+      fakeUsersService.find = () => Promise.resolve([user]);
+    });
+
+    it('returns a user if correct password is provided', async () => {
+      const result = await service.signin('asdf@asdf.com', 'asdf');
+      expect(result).toBeDefined();
+    });
+
+    it('throws if an invalid password is provided', async () => {
+      await expect(service.signin('asdf@asdf.com', 'asdfe')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('throws an error if user signs up with email that is in use', async () => {
+      await expect(service.signup('asdf@asdf.com', 'asdf')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
   });
 });
