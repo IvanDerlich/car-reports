@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { hash } from 'argon2';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -47,18 +48,29 @@ describe('AuthService', () => {
   });
 
   it('throws an error if user signs up with email that is in use', async () => {
-    fakeUsersService.find = () =>
-      Promise.resolve([
-        { id: 1, email: 'asdf@asdf.com', password: 'asdf' } as User,
-      ]);
+    const user = new User();
+    user.email = 'asdf@asdf.com';
+    user.password = 'asdf';
+
+    fakeUsersService.find = () => Promise.resolve([user]);
     await expect(service.signup('asdf@asdf.com', 'asdf')).rejects.toThrow(
       BadRequestException,
     );
   });
 
   it('throws if signin is called with an unused email', async () => {
-    await expect(service.signin('asdf@asdf.com', 'password')).rejects.toThrow(
+    await expect(service.signin('asdf@asdf.com', 'asdf')).rejects.toThrow(
       NotFoundException,
+    );
+  });
+
+  it('throws if an invalid password is provided', async () => {
+    const user = new User();
+    user.email = 'asdf@asdf.com';
+    user.password = await hash('asdf');
+    fakeUsersService.find = () => Promise.resolve([user]);
+    await expect(service.signin('asdf@asdf.com', 'asdfe')).rejects.toThrow(
+      BadRequestException,
     );
   });
 });
