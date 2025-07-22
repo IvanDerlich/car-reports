@@ -53,13 +53,13 @@ describe('AuthService', () => {
 
   describe('test against the same user', () => {
     beforeEach(async () => {
-      const user = await service.signup('asdf@asdf.com', 'asdf');
+      const user: User = await service.signup('asdf@asdf.com', 'asdf');
       fakeUsersService.find = () => Promise.resolve([user]);
     });
 
     it('returns a user if correct password is provided', async () => {
-      const result = await service.signin('asdf@asdf.com', 'asdf');
-      expect(result).toBeDefined();
+      const resultUser: User = await service.signin('asdf@asdf.com', 'asdf');
+      expect(resultUser).toBeDefined();
     });
 
     it('throws if an invalid password is provided', async () => {
