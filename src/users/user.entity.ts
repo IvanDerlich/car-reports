@@ -1,4 +1,11 @@
-import { AfterInsert, AfterRemove, AfterUpdate, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  AfterInsert,
+  AfterRemove,
+  AfterUpdate,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { IsEmail } from 'class-validator';
 
 @Entity()
@@ -11,7 +18,7 @@ export class User {
   email: string;
 
   @Column()
-  password: string;  
+  password: string;
 
   @AfterInsert()
   logInsert() {

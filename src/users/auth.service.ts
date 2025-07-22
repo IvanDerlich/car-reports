@@ -1,15 +1,17 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { hash, verify } from 'argon2';
 import { User } from './user.entity';
-
 
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
   async signup(email: string, password: string): Promise<User> {
-
     // See if email is in use
     const users = await this.usersService.find(email);
     if (users.length) {

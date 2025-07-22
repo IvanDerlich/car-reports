@@ -1,4 +1,4 @@
-import { 
+import {
   Body,
   Controller,
   Post,
@@ -25,64 +25,62 @@ import { AuthGuard } from './guards/auth.guard';
 export class UsersController {
   constructor(
     private usersService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   @UseGuards(AuthGuard)
   @Get('whoami')
   whoAmI(@CurrentUser() user: User) {
-    return user
+    return user;
   }
 
   @Post('signout')
   signOut(@Session() session: any) {
-    session.userId = null
-    return { message: 'Signed out successfully' }
+    session.userId = null;
+    return { message: 'Signed out successfully' };
   }
 
   @Post('signup')
   async createUser(
     @Body() body: CreateUserDto,
-    @Session() session: any
-  ) : Promise<User> {
-    const user = await this.authService.signup(body.email, body.password)
-    session.userId = user.id
-    return user
+    @Session() session: any,
+  ): Promise<User> {
+    const user = await this.authService.signup(body.email, body.password);
+    session.userId = user.id;
+    return user;
   }
 
   @Post('signin')
   async signin(
     @Body() body: CreateUserDto,
-    @Session() session: any
-  ) : Promise<User> {
-    const user = await this.authService.signin(body.email, body.password)
-    session.userId = user.id
-    return user
+    @Session() session: any,
+  ): Promise<User> {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
+    return user;
   }
 
   @Get(':id')
-  findUser(@Param('id') id: string ) : Promise<User | null> {
-    return this.usersService.findOneById(parseInt(id))
+  findUser(@Param('id') id: string): Promise<User | null> {
+    return this.usersService.findOneById(parseInt(id));
   }
 
   // Finds all users with an email
   @Get()
-  findAllUsersByEmail(
-    @Query('email') email: string
-  ) : Promise<User[]> {
-    return this.usersService.find(email)
+  findAllUsersByEmail(@Query('email') email: string): Promise<User[]> {
+    return this.usersService.find(email);
   }
 
   @Delete(':id')
-  removeUser(@Param('id') id: string) : Promise<User> {
-    return this.usersService.remove(parseInt(id))
+  removeUser(@Param('id') id: string): Promise<User> {
+    return this.usersService.remove(parseInt(id));
   }
 
   @Patch(':id')
   updateUser(
     @Param('id') id: string,
-    @Body() body: UpdateUserDto
-  ) : Promise<User> {
-    return this.usersService.update(parseInt(id), body)
+    @Body() body: UpdateUserDto,
+  ): Promise<User> {
+    return this.usersService.update(parseInt(id), body);
   }
 }

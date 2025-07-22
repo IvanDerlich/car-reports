@@ -7,52 +7,50 @@ import { User } from './user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private repo: Repository<User>
-  ){
-    this.repo = repo
+    private repo: Repository<User>,
+  ) {
+    this.repo = repo;
   }
 
-  create(email: string, password: string){
-    const user = this.repo.create({email, password})
-    return this.repo.save(user)
+  create(email: string, password: string) {
+    const user = this.repo.create({ email, password });
+    return this.repo.save(user);
   }
 
-  async findOneById(id: number){
-
+  async findOneById(id: number) {
     if (!id) {
-      return null
+      return null;
     }
 
-    const user = await this.repo.findOneBy({id})
+    const user = await this.repo.findOneBy({ id });
     if (!user) {
-      throw new NotFoundException('user not found')
+      throw new NotFoundException('user not found');
     }
-    return user
+    return user;
   }
 
-  async find(email: string ){
-    const user = await this.repo.find({where: {email}})
+  async find(email: string) {
+    const user = await this.repo.find({ where: { email } });
     if (!user) {
-      throw new NotFoundException('user not found')
+      throw new NotFoundException('user not found');
     }
-    return user
-  }  
-
-  async update(id: number, attributes: Partial<User>){
-    const user = await this.repo.findOneBy({id})
-    if (!user) {
-      throw new NotFoundException('user not found')
-    }
-    Object.assign(user, attributes)
-    return this.repo.save(user)
+    return user;
   }
 
-  async remove(id: number){
-    const user = await this.repo.findOneBy({id})
+  async update(id: number, attributes: Partial<User>) {
+    const user = await this.repo.findOneBy({ id });
     if (!user) {
-      throw new NotFoundException('user not found')
+      throw new NotFoundException('user not found');
     }
-    return this.repo.remove(user)
+    Object.assign(user, attributes);
+    return this.repo.save(user);
   }
 
+  async remove(id: number) {
+    const user = await this.repo.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    return this.repo.remove(user);
+  }
 }

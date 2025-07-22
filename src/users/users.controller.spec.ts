@@ -16,7 +16,5 @@ describe('UsersController', () => {
     expect(controller).toBeDefined();
   });
 
-  it(' ',()=>{
-
-  })
+  it(' ', () => {});
 });
