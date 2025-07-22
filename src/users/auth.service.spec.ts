@@ -12,15 +12,12 @@ describe('AuthService', () => {
     // Create a fake copy of the users service
     fakeUsersService = {
       find: () => Promise.resolve([]),
-      create: (email: string, password: string) =>
-        Promise.resolve(
-          (() => {
-            const user = new User();
-            user.email = email;
-            user.password = password;
-            return user;
-          })(),
-        ),
+      create: (email: string, password: string) => {
+        const user = new User();
+        user.email = email;
+        user.password = password;
+        return Promise.resolve(user);
+      },
     };
 
     const module = await Test.createTestingModule({
