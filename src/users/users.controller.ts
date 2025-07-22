@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { UserDto } from 'src/users/dtos/user.dto';
+import { UserDto } from './dtos/user.dto';
 import { UsersService } from './users.service';
-import { Serialize } from 'src/interceptors/seralized.interceptor';
+import { Serialize } from '../interceptors/seralized.interceptor';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
 import { CurrentUser } from './decorator/decorator';
