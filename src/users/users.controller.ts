@@ -9,6 +9,7 @@ import {
   Patch,
   Session,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -59,10 +60,14 @@ export class UsersController {
     session.userId = user.id;
     return user;
   }
-
   @Get(':id')
-  findUser(@Param('id') id: string): Promise<User | null> {
-    return this.usersService.findOneById(parseInt(id));
+  async findUser(@Param('id') id: string): Promise<User | null> {
+    const user = await this.usersService.findOneById(parseInt(id));
+    // Ideally exceptions should be thrown in the service layer
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    return user;
   }
 
   // Finds all users with an email
