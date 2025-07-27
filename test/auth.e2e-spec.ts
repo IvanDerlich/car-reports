@@ -3,10 +3,12 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '@/app.module';
-
+import { DataSource } from 'typeorm';
+import { clearDatabase } from './helpers/clearDatabase';
 
 describe('Authentication System (e2e)', () => {
   let app: INestApplication<App>;
+  let dataSource: DataSource;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -15,10 +17,13 @@ describe('Authentication System (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    dataSource = moduleFixture.get<DataSource>(DataSource);
+    await clearDatabase(dataSource);
   });
 
   it('Handles a signup request', () => {
-    const email = 'test123ee1oeu2ee4ua@test.com';
+    const email = 'test@test.com';
 
     return request(app.getHttpServer())
       .post('/auth/signup')
@@ -29,6 +34,5 @@ describe('Authentication System (e2e)', () => {
         expect(id).toBeDefined();
         expect(email).toEqual(email);
       });
-
   });
 });

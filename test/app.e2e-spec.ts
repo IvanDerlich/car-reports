@@ -2,10 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '@/app.module';
+import { DataSource } from 'typeorm';
+import { clearDatabase } from './helpers/clearDatabase';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
+  let dataSource: DataSource;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -14,6 +17,9 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    dataSource = moduleFixture.get<DataSource>(DataSource);
+    await clearDatabase(dataSource);
   });
 
   it('/ (GET)', () => {
