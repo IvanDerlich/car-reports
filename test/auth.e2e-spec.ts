@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '@/app.module';
-import { setupApp } from '@/setup-app';
+
 
 describe('Authentication System (e2e)', () => {
   let app: INestApplication<App>;
@@ -14,12 +14,11 @@ describe('Authentication System (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    await setupApp(app);
     await app.init();
   });
 
   it('Handles a signup request', () => {
-    const email = 'test12312uaoe3@test.com';
+    const email = 'test123ee1oeu2ee4ua@test.com';
 
     return request(app.getHttpServer())
       .post('/auth/signup')
@@ -30,9 +29,6 @@ describe('Authentication System (e2e)', () => {
         expect(id).toBeDefined();
         expect(email).toEqual(email);
       });
-    // .expect({
-    //   id: 1,
-    //   email: 'test123123@test.com',
-    // });
+
   });
 });
