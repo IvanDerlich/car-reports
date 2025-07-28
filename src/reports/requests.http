@@ -1,3 +1,28 @@
+### Check if I'm logged in
+GET http://localhost:3000/auth/whoami
+
+### Sign in as an existing user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "unique3@test.com",
+}
+
+
+### Sign out
+POST http://localhost:3000/auth/signout
+
+### Log in as an existing user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "unique3@test.com",
+  "password": "12345622"
+}
+
+
 ### Create a report
 POST http://localhost:3000/reports
 Content-Type: application/json
@@ -5,9 +30,10 @@ Content-Type: application/json
 {
   "make": "Toyota",
   "model": "Corolla",
-  "year": 2020,
+  "year": 2030,
   "lng": 123.456,
   "lat": 78.901,
   "mileage": 100000,
   "price": 100000
 }
+
