@@ -29,10 +29,27 @@ describe('Authentication System (e2e)', () => {
       .post('/auth/signup')
       .send({ email, password: '123456' })
       .expect(201)
-      .then((res) => {
-        const { id, email } = res.body;
-        expect(id).toBeDefined();
-        expect(email).toEqual(email);
-      });
+      .expect({ id: 1, email });
+  });
+
+  it('Signs up a new user, then get the current signed in user', async () => {
+    const email = 'test@test.com';
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({ email, password: '123456' });
+
+    expect(response.status).toBe(201);
+    const cookie = response.get('Set-Cookie');
+
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    await request(app.getHttpServer())
+      .get('/auth/whoami')
+      .set('Cookie', cookie)
+      .expect(200)
+      .expect({ id: 1, email });
   });
 });
