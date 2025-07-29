@@ -5,7 +5,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('UsersService', () => {
   let service: UsersService;
-  let fakeRepo: any;
+  let fakeRepo: Partial<UsersService>;
 
   beforeEach(async () => {
     const user: User = new User();
@@ -15,8 +15,8 @@ describe('UsersService', () => {
 
     fakeRepo = {
       create: jest.fn().mockReturnValue(user),
-      save: jest.fn().mockResolvedValue(user),
-      findOneBy: jest.fn().mockResolvedValue(user),
+      // save: jest.fn().mockResolvedValue(user),
+      // findOneBy: jest.fn().mockResolvedValue(user),
       find: jest.fn().mockResolvedValue([user]),
       remove: jest.fn().mockResolvedValue(user),
     };
