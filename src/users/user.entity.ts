@@ -15,7 +15,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => Report, (report) => report.user)
+  @OneToMany('Report', (report: Report) => report.user)
   reports: Report[];
 
   @Column()
