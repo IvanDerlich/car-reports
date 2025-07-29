@@ -5,13 +5,18 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
+import { Report } from '@/reports/reports.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 
   @Column()
   @IsEmail()
