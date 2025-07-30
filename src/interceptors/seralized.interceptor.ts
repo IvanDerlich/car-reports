@@ -3,22 +3,17 @@ import type { CallHandler, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
-import { nextTick } from 'process';
-import { UserDto } from 'src/users/dtos/user.dto';
+import { UserDto } from '@/users/dtos/user.dto';
+import { ReportDto } from '@/reports/dtos/report.dto';
 
-type UserDtoType = typeof UserDto;
+type ApprovedDtos = UserDto | ReportDto;
 
-// List all the DtoTypes that you wont to use in the interceptor
-// type DtoTypes = UserDtoType | anotherDtoType
-// Using generics decreases security
-type DtoTypes = UserDtoType;
-
-export function Serialize(dto: DtoTypes) {
+export function Serialize<T extends ApprovedDtos>(dto: new () => T) {
   return UseInterceptors(new SerializedInterceptor(dto));
 }
 
-class SerializedInterceptor implements NestInterceptor {
-  constructor(private dto: DtoTypes) {}
+class SerializedInterceptor<T extends ApprovedDtos> implements NestInterceptor {
+  constructor(private dto: new () => T) {}
 
   intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
     // console.log('I am running before the handler', context);
