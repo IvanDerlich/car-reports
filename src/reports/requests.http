@@ -38,3 +38,19 @@ Content-Type: application/json
   "price": 100000
 }
 
+### Approve a report
+PATCH http://localhost:3000/reports/3
+Content-Type: application/json
+
+{
+  "approved": true
+}
+
+### Reject a report
+PATCH http://localhost:3000/reports/1
+Content-Type: application/json
+
+{
+  "approved": false
+}
+
