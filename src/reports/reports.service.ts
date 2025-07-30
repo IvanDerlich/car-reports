@@ -19,7 +19,7 @@ export class ReportsService {
     return this.reportsRepo.save(report);
   }
 
-  async changeApproval(id: string, approved: boolean) {
+  async setApproval(id: string, approved: boolean) {
     const report = await this.reportsRepo.findOne({
       where: { id: parseInt(id) },
       relations: ['user'],

@@ -24,11 +24,15 @@ export class ReportsController {
   @Post()
   @UseGuards(AuthGuard)
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
+    console.log('Create report');
     return this.reportsService.create(body, user);
   }
 
   @Patch('/:id')
-  approveReport(@Param('id') id: string) {
-    return this.reportsService.changeApproval(id, true);
+  setAproveReport(
+    @Param('id') id: string,
+    @Body() body: { approved: boolean },
+  ) {
+    return this.reportsService.setApproval(id, body.approved);
   }
 }

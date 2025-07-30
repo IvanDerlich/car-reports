@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Approve a report
-PATCH http://localhost:3000/reports/3
+PATCH http://localhost:3000/reports/4
 Content-Type: application/json
 
 {
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ### Reject a report
-PATCH http://localhost:3000/reports/1
+PATCH http://localhost:3000/reports/4
 Content-Type: application/json
 
 {
