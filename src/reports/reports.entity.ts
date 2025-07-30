@@ -9,6 +9,9 @@ export class Report {
   @ManyToOne('User', (user: User) => user.reports)
   user: User;
 
+  @Column({ default: false })
+  approved: boolean;
+
   @Column()
   price: number;
 
