@@ -13,6 +13,7 @@ import { CurrentUser } from '@/users/decorator/decorator';
 import { User } from '@/users/user.entity';
 import { Serialize } from '@/interceptors/seralized.interceptor';
 import { ReportDto } from './dtos/report.dto';
+import { AdminGuard } from '@/guards/admin.guard';
 
 @Serialize(ReportDto)
 @Controller('reports')
@@ -29,6 +30,7 @@ export class ReportsController {
   }
 
   @Patch('/:id')
+  @UseGuards(AdminGuard)
   setAproveReport(
     @Param('id') id: string,
     @Body() body: { approved: boolean },
