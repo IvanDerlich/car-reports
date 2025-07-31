@@ -9,3 +9,7 @@
 // Try to update a report
 
 // Try to delete a report
+
+// Check non admin user cannot approve or reject a report even if they have the id
+
+// Check admin user can approve or reject a report
