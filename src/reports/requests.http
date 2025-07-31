@@ -54,3 +54,6 @@ Content-Type: application/json
   "approved": false
 }
 
+### Get estimate
+GET http://localhost:3000/reports?make=Toyota&model=Corolla&year=2025&lng=123.456&lat=78.901&mileage=100000
+
