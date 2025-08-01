@@ -5,8 +5,9 @@ import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
 import { UserDto } from '@/users/dtos/user.dto';
 import { ReportDto } from '@/reports/dtos/report.dto';
+import { GetEstimateReturnValueDto } from '@/reports/dtos/get-estimate-return-value.dto';
 
-type ApprovedDtos = UserDto | ReportDto;
+type ApprovedDtos = UserDto | ReportDto | GetEstimateReturnValueDto;
 
 export function Serialize<T extends ApprovedDtos>(dto: new () => T) {
   return UseInterceptors(new SerializedInterceptor(dto));
