@@ -1,4 +1,7 @@
-# @name Create User
+### Get the current user
+GET http://localhost:3000/auth/whoami
+
+### @name Create User
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
@@ -17,8 +20,7 @@ Content-Type: application/json
   "password": "12345622"
 }
 
-### Get the current user
-GET http://localhost:3000/auth/whoami
+
 
 ### Sign out
 POST http://localhost:3000/auth/signout
