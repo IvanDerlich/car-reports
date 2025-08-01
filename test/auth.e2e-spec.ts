@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '@/app.module';
 import { DataSource } from 'typeorm';
-import { clearDatabase } from './helpers/clearDatabase';
+import { clearDatabase } from '../shared/database-operations';
 
 describe('Authentication System (e2e)', () => {
   let app: INestApplication<App>;
@@ -40,6 +40,7 @@ describe('Authentication System (e2e)', () => {
       .send({ email, password: '123456' });
 
     expect(response.status).toBe(201);
+    // console.log('response: ', response);
     const cookie = response.get('Set-Cookie');
 
     if (!cookie) {

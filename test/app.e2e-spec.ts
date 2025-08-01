@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '@/app.module';
 import { DataSource } from 'typeorm';
-import { clearDatabase } from './helpers/clearDatabase';
+import { clearDatabase } from '../shared/database-operations';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;

@@ -1,15 +1,21 @@
-// Try to create a report while being logged in
+describe('Reports', () => {
+  it('boilerplate test', (done) => {
+    done();
+  });
 
-// Try to create a report without being logged in
+  // Try to create a report while being logged in
 
-// Try to get all reports
+  // Try to create a report without being logged in
 
-// Try to get a report by id
+  // Try to get all reports
 
-// Try to update a report
+  // Try to get a report by id
 
-// Try to delete a report
+  // Try to update a report
 
-// Check non admin user cannot approve or reject a report even if they have the id
+  // Try to delete a report
 
-// Check admin user can approve or reject a report
+  // Check non admin user cannot approve or reject a report even if they have the id
+
+  // Check admin user can approve or reject a report
+});
