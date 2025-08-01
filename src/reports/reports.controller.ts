@@ -17,14 +17,15 @@ import { Serialize } from '@/interceptors/seralized.interceptor';
 import { ReportDto } from './dtos/report.dto';
 import { AdminGuard } from '@/guards/admin.guard';
 import { GetEstimateDto } from './dtos/get-estimate.dto';
+import { GetEstimateReturnValueDto } from './dtos/get-estimate-return-value.dto';
 
-@Serialize(ReportDto)
 @Controller('reports')
 export class ReportsController {
   constructor(private reportsService: ReportsService) {
     this.reportsService = reportsService;
   }
 
+  @Serialize(ReportDto)
   @Post()
   @UseGuards(AuthGuard)
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
@@ -32,6 +33,7 @@ export class ReportsController {
     return this.reportsService.create(body, user);
   }
 
+  @Serialize(ReportDto)
   @Patch('/:id')
   @UseGuards(AdminGuard)
   setAproveReport(
@@ -42,9 +44,10 @@ export class ReportsController {
   }
 
   @Get()
-  getEstimate(@Query() query: GetEstimateDto) {
-    console.log('Get estimate');
-    console.log('query: ', query);
-    // return this.reportsService.createEstimate(query);
+  @Serialize(GetEstimateReturnValueDto)
+  getEstimate(
+    @Query() query: GetEstimateDto,
+  ): Promise<GetEstimateReturnValueDto> {
+    return this.reportsService.createEstimate(query);
   }
 }
