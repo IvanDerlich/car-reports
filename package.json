@@ -21,7 +21,10 @@
     "test:cov": "NODE_ENV=test jest --coverage",
     "test:debug": "NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "NODE_ENV=test jest --config ./test/jest-e2e.json --detectOpenHandles",
-    "test:cov:json": "NODE_ENV=test jest --coverage --json --outputFile=coverage/coverage.json"
+    "test:cov:json": "NODE_ENV=test jest --coverage --json --outputFile=coverage/coverage.json",
+    "db:clear": "ts-node scripts/clear-db.ts",
+    "db:reset": "ts-node scripts/reset-db.ts",
+    "db:seed": "ts-node scripts/seed-db.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
