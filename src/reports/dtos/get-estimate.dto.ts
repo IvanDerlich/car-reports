@@ -23,10 +23,14 @@ export class GetEstimateDto {
   year: number;
 
   @IsLongitude()
+  @Min(-180)
+  @Max(180)
   @Transform(({ value }) => parseFloat(value))
   lng: number;
 
   @IsLatitude()
+  @Min(-90)
+  @Max(90)
   @Transform(({ value }) => parseFloat(value))
   lat: number;
 
