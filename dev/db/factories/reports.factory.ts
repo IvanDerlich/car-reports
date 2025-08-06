@@ -1,5 +1,6 @@
 import { setSeederFactory } from 'typeorm-extension';
-import { Report } from '../../../../src/reports/reports.entity';
+import { Report } from '../../../src/reports/reports.entity';
+import { faker } from '@faker-js/faker';
 
 // Type for custom report data
 export type CustomReportData = {
@@ -15,7 +16,7 @@ export type CustomReportData = {
 };
 
 // Custom factory function that can accept custom data
-export const createCustomReport = (customData: CustomReportData): Report => {
+export const CustomReportFactory = (customData: CustomReportData): Report => {
   const report = new Report();
   report.make = customData.make;
   report.model = customData.model;
@@ -29,18 +30,15 @@ export const createCustomReport = (customData: CustomReportData): Report => {
   return report;
 };
 
-// Standard factory for typeorm-extension (uses faker)
-export const ReportsCustomFactory = setSeederFactory(Report, () => {
-  // This factory can be used with typeorm-extension's standard pattern
-  // For custom data, use createCustomReport function directly
+export const RandomReportFactory = setSeederFactory(Report, () => {
   const report = new Report();
-  report.make = 'Toyota';
-  report.model = 'Camry';
-  report.year = 2020;
-  report.lng = -122.4194;
-  report.lat = 37.7749;
-  report.mileage = 50000;
-  report.approved = false;
-  report.price = 25000;
+  report.make = faker.vehicle.manufacturer();
+  report.model = faker.vehicle.model();
+  report.year = faker.date.past().getFullYear();
+  report.lng = faker.location.longitude();
+  report.lat = faker.location.latitude();
+  report.mileage = faker.number.int({ min: 10000, max: 100000 });
+  report.approved = faker.datatype.boolean();
+  report.price = faker.number.int({ min: 10000, max: 100000 });
   return report;
 });
