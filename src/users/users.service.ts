@@ -12,9 +12,10 @@ export class UsersService {
     this.repo = repo;
   }
 
-  create(email: string, password: string) {
-    const user = this.repo.create({ email, password });
-    return this.repo.save(user);
+  async create(email: string, password: string, admin: boolean) {
+    const user = this.repo.create({ email, password, admin });
+    const savedUser = await this.repo.save(user);
+    return savedUser;
   }
 
   async findOneById(id: number) {

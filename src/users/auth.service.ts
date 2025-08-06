@@ -11,7 +11,11 @@ import { User } from './user.entity';
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async signup(email: string, password: string): Promise<User> {
+  async signup(
+    email: string,
+    password: string,
+    admin: boolean = false,
+  ): Promise<User> {
     // See if email is in use
     const users = await this.usersService.find(email);
     if (users.length) {
@@ -21,7 +25,7 @@ export class AuthService {
     // Hash the users password with argon2 that contains the salt, parameters, and algorithm info
     const hashedPassword = await hash(password);
 
-    const user = await this.usersService.create(email, hashedPassword);
+    const user = await this.usersService.create(email, hashedPassword, admin);
 
     return user;
   }

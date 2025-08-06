@@ -46,7 +46,11 @@ export class UsersController {
     @Body() body: CreateUserDto,
     @Session() session: any,
   ): Promise<User> {
-    const user = await this.authService.signup(body.email, body.password);
+    const user = await this.authService.signup(
+      body.email,
+      body.password,
+      body.admin,
+    );
     session.userId = user.id;
     return user;
   }
