@@ -7,17 +7,14 @@ export const clearDatabase = async (dataSource: DataSource) => {
   }
 
   try {
-    // Get all table names from the database
-    const tables = await dataSource.query(`
-      SELECT name FROM sqlite_master 
-      WHERE type='table' AND name NOT LIKE 'sqlite_%'
-    `);
+    // Keep the order because of foreign key constraints = report depends on user
+    const tables = ['report', 'user'];
 
     // Clear each table
     for (const table of tables) {
-      await dataSource.query(`DELETE FROM ${table.name}`);
+      await dataSource.query(`DELETE FROM ${table}`);
       await dataSource.query(
-        `DELETE FROM sqlite_sequence WHERE name='${table.name}'`,
+        `DELETE FROM sqlite_sequence WHERE name='${table}'`,
       );
     }
 
