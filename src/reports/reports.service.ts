@@ -46,7 +46,7 @@ export class ReportsService {
       .where('make = :make', { make })
       .andWhere('model = :model', { model })
       .andWhere('lng BETWEEN :minLng AND :maxLng', {
-        minLng: lng,
+        minLng: lng - 5,
         maxLng: lng + 5,
       })
       .andWhere('lat BETWEEN :minLat AND :maxLat', {
