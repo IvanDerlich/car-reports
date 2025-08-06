@@ -1,4 +1,6 @@
 import { DataSourceOptions } from 'typeorm';
+import { User } from '../../src/users/user.entity';
+import { Report } from '../../src/reports/reports.entity';
 
 // Simple database configuration
 export const getDatabaseConfig = (): DataSourceOptions => {
@@ -9,5 +11,6 @@ export const getDatabaseConfig = (): DataSourceOptions => {
     database: isTest ? 'db.test.sqlite' : 'db.sqlite',
     synchronize: true,
     logging: false,
+    entities: [User, Report],
   };
 };
