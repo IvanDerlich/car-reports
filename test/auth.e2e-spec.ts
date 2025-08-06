@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '@/app.module';
 import { DataSource } from 'typeorm';
-import { clearDatabase } from '../shared/database-operations';
+import { clearDatabase } from '../dev/db/clear';
 
 describe('Authentication System (e2e)', () => {
   let app: INestApplication<App>;
@@ -19,7 +19,9 @@ describe('Authentication System (e2e)', () => {
     await app.init();
 
     dataSource = moduleFixture.get<DataSource>(DataSource);
-    await clearDatabase(dataSource);
+
+    // Clear database before each test (same as npm script)
+    await clearDatabase();
   });
 
   it('Handles a signup request', () => {

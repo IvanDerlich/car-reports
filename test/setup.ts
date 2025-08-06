@@ -1,6 +1,3 @@
-import { DataSource } from 'typeorm';
-
-// This function runs before each test
-global.beforeEach(async () => {
-  // console.log('beforeEach');
-});
+// This file is intentionally empty
+// Database clearing is handled individually in each e2e test file
+// using the same clearDatabase function from dev/db/clear
