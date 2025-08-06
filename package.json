@@ -22,16 +22,15 @@
     "test:debug": "NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "NODE_ENV=test jest --config ./test/jest-e2e.json --detectOpenHandles",
     "test:cov:json": "NODE_ENV=test jest --coverage --json --outputFile=coverage/coverage.json",
-    "db:clear": "ts-node scripts/clear-db.ts",
-    "db:reset": "ts-node scripts/reset-db.ts",
-    "db:seed": "ts-node scripts/seed-db.ts"
+    "db:clear": "ts-node dev/scripts/clear-db.ts",
+    "db:seed": "ts-node dev/scripts/seed-db.ts",
+    "db:reset": "ts-node dev/scripts/reset-db.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/typeorm": "^11.0.0",
     "@types/cookie-session": "^2.0.49",
     "argon2": "^0.43.1",
     "class-transformer": "^0.5.1",
@@ -44,6 +43,7 @@
     "typeorm": "^0.3.25"
   },
   "devDependencies": {
+    "@nestjs/typeorm": "^11.0.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@faker-js/faker": "^9.9.0",
@@ -68,6 +68,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "typeorm-extension": "^3.7.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
   },
