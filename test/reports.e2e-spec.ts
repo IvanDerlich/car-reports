@@ -1,3 +1,5 @@
+import { targetReport, reports } from './fixtures/reports';
+
 describe('Reports', () => {
   it('boilerplate test', (done) => {
     done();
@@ -19,5 +21,9 @@ describe('Reports', () => {
 
   // Check admin user can approve or reject a report
 
-  // check the estimated price is correct
+  /*
+     Get an estimate for a report with the several reports
+     - Avarage has to be done with the 3 closest reports
+     - Check the average excludes the 4th report in it's calculation
+  */
 });

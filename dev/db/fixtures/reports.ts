@@ -91,4 +91,6 @@ export const reportsFixtures: CustomReportData[] = [
     mileage: 10000,
     price: 10000,
   },
+
+  
 ];
