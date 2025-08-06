@@ -1,6 +1,6 @@
 import { CustomReportData } from '../../dev/db/types';
 
-export const targetReport: CustomReportData = {
+export const targetReportData: CustomReportData = {
   make: 'Ford',
   model: 'Mustang',
   year: 2020,
@@ -8,6 +8,7 @@ export const targetReport: CustomReportData = {
   lat: 10,
   mileage: 10000,
   price: 10000,
+  approved: false,
 };
 
 /*
@@ -19,7 +20,7 @@ export const targetReport: CustomReportData = {
    - approved must be true
   */
 
-export const reports: CustomReportData[] = [
+export const reportsData: CustomReportData[] = [
   {
     make: 'Ford',
     model: 'Mustang',
