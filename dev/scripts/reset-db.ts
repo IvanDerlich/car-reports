@@ -10,7 +10,7 @@ const resetDatabaseScript = async () => {
     await dataSource.initialize();
     await clearDatabase(dataSource);
     await seedDatabase(dataSource);
-    } catch (error) {
+  } catch (error) {
     console.error('Failed to reset database:', error);
     throw error;
   } finally {
