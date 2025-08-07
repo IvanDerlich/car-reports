@@ -88,7 +88,7 @@ describe('Reports', () => {
       });
 
     // Save the cookie
-    const cookie = response.get('Set-Cookie');
+    let cookie = response.get('Set-Cookie');
 
     if (!cookie) {
       throw new Error('Cookie is undefined');
@@ -133,35 +133,29 @@ describe('Reports', () => {
         id: 1,
       });
 
-    // Sign out the admin user
+    // Create a new user
     response = await request(app.getHttpServer())
-      .post('/auth/signout')
-      .set('Cookie', cookie)
+      .post('/auth/signup')
+      .send(userData)
       .expect(201)
-      .expect({});
+      .expect({
+        email: 'test@test.com',
+        id: 2,
+        admin: false,
+      });
 
-    console.log('response: ', response.body);
+    cookie = response.get('Set-Cookie');
 
-    // Check user is signed out
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    // Try to approve a report and expect 401
     response = await request(app.getHttpServer())
-      .get('/auth/whoami')
+      .patch('/reports/1')
       .set('Cookie', cookie)
-      .expect(201)
-      .expect({ message: 'Signed out successfully' });
-
-    console.log('response: ', response.body);
-
-    // Try to approve the report again - send the cookie to test if it's properly cleared
-    // response = await request(app.getHttpServer())
-    //   .patch('/reports/1')
-    //   .set('Cookie', cookie)
-    //   .send({ approved: true })
-    //   .expect(401)
-    //   .expect({
-    //     message: 'Authentication required',
-    //     error: 'Unauthorized',
-    //     statusCode: 401,
-    //   });
+      .send({ approved: true })
+      .expect(403);
   });
 
   /*
