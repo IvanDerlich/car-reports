@@ -3,13 +3,21 @@
 
 echo "🔍 Running pre-push checks..."
 
-echo "🧪 Running tests..."
+echo "🧪 Running tests unit tests..."
 npm test
 if [ $? -ne 0 ]; then
-    echo "❌ Tests failed! Please fix the failing tests before pushing."
+    echo "❌ Unit Tests failed! Please fix the failing tests before pushing."
     exit 1
 fi
-echo "✅ Tests passed!"
+echo "✅ Unit Tests passed!"
+
+echo "🧪 Running tests e2e tests..."
+npm run test:e2e
+if [ $? -ne 0 ]; then
+    echo "❌ E2E Tests failed! Please fix the failing tests before pushing."
+    exit 1
+fi
+echo "✅ E2E Tests passed!"
 
 echo "🏗️ Building project..."
 npm run build
