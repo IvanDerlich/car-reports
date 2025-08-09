@@ -163,4 +163,43 @@ describe('Reports', () => {
      - Avarage has to be done with the 3 closest reports
      - Check the average excludes the 4th report in it's calculation
   */
+  describe('Get an estimate for a report', () => {
+    beforeEach(async () => {
+      // Create an admin user
+      let response = await request(app.getHttpServer())
+        .post('/auth/signup')
+        .send(adminUserData)
+        .expect(201)
+        .expect({
+          email: adminUserData.email,
+          id: 1,
+          admin: true,
+        });
+
+      // Save the cookie
+      let cookie = response.get('Set-Cookie');
+
+      if (!cookie) {
+        throw new Error('Cookie is undefined');
+      }
+
+      // Create many reports with reportsData
+      for (const report of reportsData) {
+        // console.log('report: ', report);
+        await request(app.getHttpServer())
+          .post('/reports')
+          .set('Cookie', cookie)
+          .send(report)
+          .expect(201);
+      }
+    });
+
+    it.only('should get an estimate for a report', async () => {
+      const response = await request(app.getHttpServer()).get(
+        `/reports?make=${targetReportData.make}&model=${targetReportData.model}&year=${targetReportData.year}&lng=${targetReportData.lng}&lat=${targetReportData.lat}&mileage=${targetReportData.mileage}`,
+      );
+      console.log('response: ', response.body);
+      //   .expect(200);
+    });
+  });
 });

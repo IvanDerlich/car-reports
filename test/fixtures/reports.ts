@@ -29,6 +29,7 @@ export const reportsData: CustomReportData[] = [
     lat: 12,
     mileage: 30000,
     price: 13000,
+    approved: true,
   },
   {
     make: 'Ford',
@@ -38,6 +39,7 @@ export const reportsData: CustomReportData[] = [
     lat: 8,
     mileage: 20000,
     price: 5000,
+    approved: true,
   },
   {
     make: 'Ford',
@@ -47,6 +49,7 @@ export const reportsData: CustomReportData[] = [
     lat: 8,
     mileage: 15000,
     price: 22000,
+    approved: true,
   },
   /* This should not be included in the results because it only 
   selects 3 reports sorted by ABS(mileage - 10000)
@@ -59,5 +62,6 @@ export const reportsData: CustomReportData[] = [
     lat: 11,
     mileage: 16000,
     price: 18000,
+    approved: true,
   },
 ];
