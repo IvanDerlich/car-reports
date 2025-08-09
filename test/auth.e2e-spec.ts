@@ -79,7 +79,7 @@ describe('Authentication System (e2e)', () => {
       .expect({ id: 1, email, admin: false });
   });
 
-  it.only('Signs in a user, the signs out, then signs in again', async () => {
+  it('Signs in a user, the signs out, then signs in again', async () => {
     const userData = {
       email: 'test@test.com',
       password: '123456',
