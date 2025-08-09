@@ -37,9 +37,9 @@ export class ReportsService {
   async createEstimate(estimateDto: GetEstimateDto) {
     const { make, model, lng, lat, year, mileage } = estimateDto;
 
-    const queryBuilder = await this.reportsRepo
+    const _3_nearest_reports = await this.reportsRepo
       .createQueryBuilder()
-      .select('AVG(price)', 'avgPrice')
+      .select('*')
       .where('make = :make', { make })
       .andWhere('model = :model', { model })
       .andWhere('lng BETWEEN :minLng AND :maxLng', {
@@ -55,14 +55,19 @@ export class ReportsService {
         maxYear: year + 3,
       })
       .andWhere('approved IS TRUE')
-      .orderBy('ABS(mileage - :mileage)', 'DESC')
+      .orderBy('ABS(mileage - :mileage)', 'ASC')
       .setParameters({ mileage })
-      .limit(3);
+      .limit(3)
+      .getRawMany();
 
-    const response: number | undefined = await queryBuilder.getRawOne();
-    if (!response) {
+    if (_3_nearest_reports.length === 0) {
       throw new NotFoundException('No reports found that match the criteria');
     }
-    return response;
+
+    const avgPrice =
+      _3_nearest_reports.reduce((acc, report) => acc + report.price, 0) /
+      _3_nearest_reports.length;
+
+    return { avgPrice };
   }
 }
