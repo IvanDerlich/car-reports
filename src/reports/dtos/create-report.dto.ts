@@ -5,6 +5,8 @@ import {
   IsLatitude,
   Min,
   Max,
+  IsBoolean,
+  IsOptional,
 } from 'class-validator';
 import { IsNotFutureYear } from '../validators/is-not-future-year.validator';
 
@@ -35,4 +37,8 @@ export class CreateReportDto {
   @Min(0)
   @Max(1000000)
   price: number;
+
+  @IsBoolean()
+  @IsOptional()
+  approved: boolean;
 }

@@ -29,7 +29,6 @@ export class ReportsController {
   @Post()
   @UseGuards(AuthGuard)
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
-    console.log('Create report');
     return this.reportsService.create(body, user);
   }
 
@@ -43,11 +42,9 @@ export class ReportsController {
     return this.reportsService.setApproval(id, body.approved);
   }
 
-  @Get()
   @Serialize(GetEstimateReturnValueDto)
-  getEstimate(
-    @Query() query: GetEstimateDto,
-  ): Promise<GetEstimateReturnValueDto> {
+  @Get()
+  getEstimate(@Query() query: GetEstimateDto) {
     return this.reportsService.createEstimate(query);
   }
 }

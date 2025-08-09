@@ -4,5 +4,5 @@ import { IsNumber } from 'class-validator';
 export class GetEstimateReturnValueDto {
   @Expose()
   @IsNumber()
-  price: number;
+  avgPrice: number;
 }

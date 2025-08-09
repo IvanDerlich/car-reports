@@ -5,7 +5,6 @@ import { Report } from './reports.entity';
 import { Repository } from 'typeorm';
 import { User } from '@/users/user.entity';
 import { GetEstimateDto } from './dtos/get-estimate.dto';
-import { GetEstimateReturnValueDto } from './dtos/get-estimate-return-value.dto';
 
 @Injectable()
 export class ReportsService {
@@ -15,10 +14,11 @@ export class ReportsService {
   ) {
     this.reportsRepo = reportsRepo;
   }
-  create(reportDto: CreateReportDto, user: User) {
+  async create(reportDto: CreateReportDto, user: User) {
     const report = this.reportsRepo.create(reportDto);
     report.user = user;
-    return this.reportsRepo.save(report);
+    const savedReport = await this.reportsRepo.save(report);
+    return savedReport;
   }
 
   async setApproval(id: string, approved: boolean) {
@@ -34,10 +34,7 @@ export class ReportsService {
     return report;
   }
 
-  async createEstimate(
-    estimateDto: GetEstimateDto,
-  ): Promise<GetEstimateReturnValueDto> {
-    // console.log('estimateDto: ', estimateDto);
+  async createEstimate(estimateDto: GetEstimateDto) {
     const { make, model, lng, lat, year, mileage } = estimateDto;
 
     const queryBuilder = await this.reportsRepo
@@ -62,13 +59,10 @@ export class ReportsService {
       .setParameters({ mileage })
       .limit(3);
 
-    // console.log(
-    //   'query with parameters: ',
-    //   queryBuilder.getQueryAndParameters(),
-    // );
-
-    const result = await queryBuilder.getRawOne();
-    // console.log('result: ', result);
-    return result;
+    const response: number | undefined = await queryBuilder.getRawOne();
+    if (!response) {
+      throw new NotFoundException('No reports found that match the criteria');
+    }
+    return response;
   }
 }
