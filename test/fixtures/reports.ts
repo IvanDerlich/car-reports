@@ -27,8 +27,8 @@ export const reportsData: CustomReportData[] = [
     year: 2019,
     lng: 8,
     lat: 12,
-    mileage: 30000,
-    price: 13000,
+    mileage: 10100,
+    price: 10010,
     approved: true,
   },
   {
@@ -37,8 +37,8 @@ export const reportsData: CustomReportData[] = [
     year: 2021,
     lng: 12,
     lat: 8,
-    mileage: 20000,
-    price: 5000,
+    mileage: 10200,
+    price: 10020,
     approved: true,
   },
   {
@@ -47,8 +47,8 @@ export const reportsData: CustomReportData[] = [
     year: 2022,
     lng: 7,
     lat: 8,
-    mileage: 15000,
-    price: 22000,
+    mileage: 10300,
+    price: 10030,
     approved: true,
   },
   /* This should not be included in the results because it only 
@@ -60,8 +60,8 @@ export const reportsData: CustomReportData[] = [
     year: 2023,
     lng: 12,
     lat: 11,
-    mileage: 16000,
-    price: 18000,
+    mileage: 40000,
+    price: 30000,
     approved: true,
   },
 ];

@@ -164,6 +164,7 @@ describe('Reports', () => {
      - Check the average excludes the 4th report in it's calculation
   */
   describe('Get an estimate for a report', () => {
+    let cookie: string[] | undefined;
     beforeEach(async () => {
       // Create an admin user
       let response = await request(app.getHttpServer())
@@ -177,29 +178,180 @@ describe('Reports', () => {
         });
 
       // Save the cookie
-      let cookie = response.get('Set-Cookie');
+      cookie = response.get('Set-Cookie') || [''];
 
       if (!cookie) {
         throw new Error('Cookie is undefined');
       }
 
-      // Create many reports with reportsData
+      // Create many reports with reportsData and approve them
       for (const report of reportsData) {
-        // console.log('report: ', report);
-        await request(app.getHttpServer())
+        const response = await request(app.getHttpServer())
           .post('/reports')
           .set('Cookie', cookie)
           .send(report)
           .expect(201);
+
+        await request(app.getHttpServer())
+          .patch(`/reports/${response.body.id}`)
+          .set('Cookie', cookie)
+          .send({ approved: true })
+          .expect(200);
       }
     });
 
-    it.only('should get an estimate for a report', async () => {
-      const response = await request(app.getHttpServer()).get(
-        `/reports?make=${targetReportData.make}&model=${targetReportData.model}&year=${targetReportData.year}&lng=${targetReportData.lng}&lat=${targetReportData.lat}&mileage=${targetReportData.mileage}`,
-      );
-      console.log('response: ', response.body);
-      //   .expect(200);
+    it('should get an estimate for a report', async () => {
+      const URI = `/reports?make=${targetReportData.make}&model=${targetReportData.model}&year=${targetReportData.year}&lng=${targetReportData.lng}&lat=${targetReportData.lat}&mileage=${targetReportData.mileage}`;
+      let response = await request(app.getHttpServer()).get(URI).expect(200);
+      const targetReportAvgPrice = 10020;
+
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      if (!cookie) {
+        throw new Error('Cookie is undefined');
+      }
+
+      /* 
+        Create a report the same as the targetReportData but with a different 
+        mileage and it will be the 4th report and it will be the farthest from the targetReportData
+        and it will be the one that will be excluded from the average calculation
+      */
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, mileage: 999999 });
+
+      // Approve the report
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+
+      // Get the estimate again and expect the average price to be the same
+      // because the 4th report is excluded from the average calculation
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Different make
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, make: 'Toyota' });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Different model
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, model: 'Camry' });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Longitude greater than max
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, lng: 16 });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Longitude less than min
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, lng: 4 });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Latitude greater than max
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, lat: 16 });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Latitude less than min
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, lat: 4 });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Year greater than max
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, year: 2024 });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Year less than min
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData, year: 2016 });
+
+      await request(app.getHttpServer())
+        .patch(`/reports/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({ approved: true })
+        .expect(200);
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
+
+      // Exclude unapproved report
+      response = await request(app.getHttpServer())
+        .post('/reports')
+        .set('Cookie', cookie)
+        .send({ ...targetReportData });
+      response = await request(app.getHttpServer()).get(URI).expect(200);
+      expect(response.body.avgPrice).toBe(targetReportAvgPrice);
     });
   });
 });
