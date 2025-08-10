@@ -4,11 +4,16 @@ import { Report } from '../../src/reports/reports.entity';
 
 // Simple database configuration
 export const getDatabaseConfig = (): DataSourceOptions => {
-  const isTest = process.env.NODE_ENV === 'test';
+
+  const database = process.env.DB_NAME;
+
+  if (!database) {
+    throw Error('Database path not present');
+  }
 
   return {
     type: 'sqlite',
-    database: isTest ? 'db.test.sqlite' : 'db.sqlite',
+    database,
     synchronize: true,
     logging: false,
     entities: [User, Report],
