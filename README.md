@@ -1,98 +1,254 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Car Reports API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A NestJS-based API for managing car reports with user authentication and reporting functionality.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a [NestJS](https://github.com/nestjs/nest) application that provides an API for managing car reports. The application includes user authentication, report management, and uses SQLite as the database.
 
-## Project setup
+## Features
+
+- User authentication with cookie sessions
+- **Price estimation based on similar car reports** - Calculate price estimates using machine learning approach that finds the 3 most similar approved reports based on make, model, location, year, and mileage
+- Car reports management
+- SQLite database with TypeORM
+- Input validation with class-validator
+- Comprehensive testing suite (unit and e2e tests)
+
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+
+## Project Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd car-reports-api
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Configuration**
+
+   Create the following environment files:
+
+   **For Development** (`.env.development`):
+
+   ```env
+   COOKIE_KEY=your-secret-cookie-key-here
+   DB_NAME=db.sqlite
+   ```
+
+   **For Testing** (`.env.test`):
+
+   ```env
+   COOKIE_KEY=your-secret-cookie-key-here
+   DB_NAME=db.test.sqlite
+   ```
+
+   **For Production** (`.env.production`):
+
+   ```env
+   COOKIE_KEY=your-secret-cookie-key-here
+   DB_NAME=db.sqlite
+   ```
+
+   > **Note**: Use different database names for testing to avoid resetting your development database during test runs. The cookie key can be the same across environments.
+
+## Running the Application
+
+### Development Mode
 
 ```bash
-$ npm install
+# Start in development mode with hot reload
+npm run start:dev
+
+# Or use the dev alias
+npm run dev
 ```
 
-## Compile and run the project
+### Production Mode
 
 ```bash
-# development
-$ npm run start
+# Build the application
+npm run build
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Start in production mode
+npm run start:prod
 ```
 
-## Run tests
+### Debug Mode
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:debug
 ```
 
-## Deployment
+## Testing
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+The project includes comprehensive testing with Jest:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Unit Tests
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Run unit tests
+npm run test
+
+# Run unit tests in watch mode
+npm run test:watch
+
+# Run unit tests with coverage
+npm run test:cov
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### End-to-End Tests
 
-## Resources
+```bash
+# Run e2e tests
+npm run test:e2e
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Test Coverage
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# Generate coverage report
+npm run test:cov
 
-## Support
+# Generate coverage report in JSON format
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API Testing with VS Code/Cursor
 
-## Stay in touch
+For easy API testing without complex setup, you can use the included .http files in VS Code or Cursor:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Users API Testing
+Use src/users/request.http to test user-related endpoints:
+- User registration and authentication
+- User management operations
+- Session handling
+
+### Reports API Testing
+Use src/reports/requests.http to test report-related endpoints:
+- Report creation and management
+- Price estimation functionality
+- Report approval/rejection
+
+### How to Use
+1. Open the .http file in VS Code or Cursor
+2. Install the "REST Client" extension if not already installed
+3. Click the "Send Request" link above each request
+4. View responses directly in the editor
+
+This provides a simple way to test the API functionality without needing external tools like Postman or curl.
+npm run test:cov:json
+```
+
+## Database Management
+
+The project includes several database management scripts:
+
+```bash
+# Clear the database
+npm run db:clear
+
+# Seed the database with sample data
+npm run db:seed
+
+# Reset the database (clear + seed)
+npm run db:reset
+```
+
+## Code Quality
+
+```bash
+# Lint and fix code
+npm run lint
+
+# Format code
+npm run format
+
+# Check code formatting
+npm run format:check
+```
+
+## API Endpoints
+
+The API provides endpoints for:
+
+- **Users**: User registration, authentication, and management
+- **Reports**: Car report creation, retrieval, and management
+- **Price Estimation**: Calculate price estimates based on similar car reports in the database
+
+### Price Estimation Algorithm
+
+The price estimation feature uses a sophisticated algorithm that:
+
+1. **Finds Similar Cars**: Searches for the 3 most similar approved reports based on:
+   - Same make and model
+   - Geographic proximity (±5 degrees longitude/latitude)
+   - Similar year (±3 years)
+   - Closest mileage
+
+2. **Calculates Average Price**: Returns the average price of the 3 most similar reports
+
+3. **Input Requirements**:
+   - Car make and model
+   - Year (1930 to current year)
+   - Geographic coordinates (longitude/latitude)
+   - Mileage (0 to 1,000,000)
+
+This approach provides accurate price estimates by leveraging real market data from similar vehicles in the same geographic area.
+
+## Environment Variables
+
+| Variable     | Description                                 | Required | Default     |
+| ------------ | ------------------------------------------- | -------- | ----------- |
+| `COOKIE_KEY` | Secret key for cookie session encryption    | Yes      | -           |
+| `DB_NAME`    | SQLite database file path                   | Yes      | -           |
+| `NODE_ENV`   | Environment (development, test, production) | No       | development |
+
+## Project Structure
+
+```
+src/
+├── users/           # User management module
+├── reports/         # Reports management module
+├── app.controller.ts
+├── app.service.ts
+└── app.module.ts
+test/                # End-to-end tests
+dev/
+├── db/             # Database configuration and scripts
+└── scripts/        # Database management scripts
+```
+
+## Technologies Used
+
+- **Framework**: NestJS
+- **Database**: SQLite with TypeORM
+- **Authentication**: Cookie sessions client side
+- **Validation**: class-validator
+- **Testing**: Jest
+- **Language**: TypeScript
+
+## Future improvements
+
+- **Server side sessions:** so we don't rely on client side cooking for de-authentication
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Ensure all tests pass
+6. Submit a pull request
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.
