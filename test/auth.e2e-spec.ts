@@ -41,7 +41,7 @@ describe('Authentication System (e2e)', () => {
       admin: true,
     };
 
-    const response = await request(app.getHttpServer())
+    let response = await request(app.getHttpServer())
       .post('/auth/signup')
       .send(userData)
       .expect(201)
@@ -51,20 +51,27 @@ describe('Authentication System (e2e)', () => {
         admin: true,
       });
 
-    console.log('create user response: ', response.body);
+    const cookie = response.get('Set-Cookie');
 
-    // let response = await createUser(userData);
-    // console.log('create user response: ', response.body);
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    response = await request(app.getHttpServer())
+      .get('/auth/whoami')
+      .set('Cookie', cookie)
+      .expect(200)
+      .expect({ id: 1, email: userData.email, admin: userData.admin });
   });
 
   it('Signs up a new user, then get the current signed in user', async () => {
     const email = 'test@test.com';
 
-    const response = await request(app.getHttpServer())
+    let response = await request(app.getHttpServer())
       .post('/auth/signup')
-      .send({ email, password: '123456' });
+      .send({ email, password: '123456' })
+      .expect(201);
 
-    expect(response.status).toBe(201);
     // console.log('response: ', response);
     const cookie = response.get('Set-Cookie');
 
@@ -72,11 +79,12 @@ describe('Authentication System (e2e)', () => {
       throw new Error('Cookie is undefined');
     }
 
-    await request(app.getHttpServer())
+    response = await request(app.getHttpServer())
       .get('/auth/whoami')
       .set('Cookie', cookie)
       .expect(200)
       .expect({ id: 1, email, admin: false });
+    // console.log('response: ', response);
   });
 
   it('Signs in a user, the signs out, then signs in again', async () => {
