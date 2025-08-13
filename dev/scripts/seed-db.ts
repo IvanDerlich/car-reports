@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { seedDatabase } from '../db/seed';
-import { getDatabaseConfig } from '../db/config';
+import { getDatabaseConfig } from '../../db.config';
 
 const seedDatabaseScript = async () => {
   let dataSource: DataSource | undefined;
