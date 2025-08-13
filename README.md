@@ -37,30 +37,14 @@ This is a [NestJS](https://github.com/nestjs/nest) application that provides an 
 
 3. **Environment Configuration**
 
-   Create the following environment files:
-
-   **For Development** (`.env.development`):
+   Create environment files for each environment (`.env.development`, `.env.test`, `.env.production`) with the required variables:
 
    ```env
    COOKIE_KEY=your-secret-cookie-key-here
-   DB_NAME=db.sqlite
+   DB_NAME=your-database-name.sqlite
    ```
 
-   **For Testing** (`.env.test`):
-
-   ```env
-   COOKIE_KEY=your-secret-cookie-key-here
-   DB_NAME=db.test.sqlite
-   ```
-
-   **For Production** (`.env.production`):
-
-   ```env
-   COOKIE_KEY=your-secret-cookie-key-here
-   DB_NAME=db.sqlite
-   ```
-
-   > **Note**: Use different database names for testing to avoid resetting your development database during test runs. The cookie key can be the same across environments.
+   > **Note**: Use different database names for testing to avoid resetting your development database during test runs.
 
 ## Running the Application
 
