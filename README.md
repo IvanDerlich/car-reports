@@ -9,7 +9,7 @@ This is a [NestJS](https://github.com/nestjs/nest) application that provides an 
 ## Features
 
 - User authentication with cookie sessions
-- **Price estimation based on similar car reports** - Calculate price estimates using machine learning approach that finds the 3 most similar approved reports based on make, model, location, year, and mileage
+- **Price estimation based on similar car reports** - Calculate price estimates using a statistical approach that finds the 3 most similar approved reports based on make, model, location, year, and mileage
 - Car reports management
 - SQLite database with TypeORM
 - Input validation with class-validator
@@ -186,7 +186,7 @@ The API provides endpoints for:
 
 ### Price Estimation Algorithm
 
-The price estimation feature uses a sophisticated algorithm that:
+The price estimation feature uses a rule-based statistical algorithm that:
 
 1. **Finds Similar Cars**: Searches for the 3 most similar approved reports based on:
    - Same make and model
@@ -202,7 +202,7 @@ The price estimation feature uses a sophisticated algorithm that:
    - Geographic coordinates (longitude/latitude)
    - Mileage (0 to 1,000,000)
 
-This approach provides accurate price estimates by leveraging real market data from similar vehicles in the same geographic area.
+This approach provides price estimates by averaging user-submitted reports of similar vehicles in the same geographic area using predefined filtering rules.
 
 ## Environment Variables
 
