@@ -7,7 +7,7 @@ import { ReportsModule } from './reports/reports.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 const cookieSession = require('cookie-session');
 import { ConfigModule } from '@nestjs/config';
-import { getDatabaseConfig } from '../dev/db/config';
+import { getDatabaseConfig } from '../db.config';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ export class AppModule {
     consumer
       .apply(
         cookieSession({
-          keys: ['asdfasdf'],
+          keys: [process.env.COOKIE_KEY],
         }),
       )
       .forRoutes('*');
