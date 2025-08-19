@@ -1,6 +1,6 @@
 import { clearDatabase } from '../db/clear';
 import { DataSource } from 'typeorm';
-import { getDatabaseConfig } from '../db/config';
+import { getDatabaseConfig } from '../../db.config';
 
 const clearDatabaseScript = async () => {
   let dataSource: DataSource | undefined;

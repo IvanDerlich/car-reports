@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { clearDatabase } from '../db/clear';
 import { seedDatabase } from '../db/seed';
-import { getDatabaseConfig } from '../db/config';
+import { getDatabaseConfig } from '../../db.config';
 
 const resetDatabaseScript = async () => {
   let dataSource: DataSource | undefined;
