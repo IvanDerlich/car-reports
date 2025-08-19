@@ -9,12 +9,15 @@ export const getDatabaseConfig = (): DataSourceOptions => {
     throw Error('Database path not present');
   }
 
-  return {
+  let config: DataSourceOptions = {
     type: 'sqlite',
     database,
     synchronize: false,
     logging: false,
     entities: [User, Report],
     migrations: [`dev/db/migrations/*.${process.env.NODE_ENV === 'test' ? 'ts' : 'js'}`],
+    migrationsRun: process.env.NODE_ENV === 'test',
   };
+
+  return config;
 };
