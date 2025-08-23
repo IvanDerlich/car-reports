@@ -13,7 +13,7 @@ export const getDatabaseConfig = (): DataSourceOptions => {
   return {
     type: 'sqlite',
     database,
-    synchronize: true,
+    // synchronize: true,
     logging: false,
     entities: [User, Report],
   };
