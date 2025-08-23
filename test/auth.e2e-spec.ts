@@ -116,4 +116,8 @@ describe('Authentication System (e2e)', () => {
       .expect(201)
       .expect({ id: 1, email: 'test@test.com', admin: false });
   });
+
+  it.only("Returns an error if there's no signed in user and the user tries to get the current user", async () => {
+    await request(app.getHttpServer()).get('/auth/whoami').expect(401);
+  });
 });
