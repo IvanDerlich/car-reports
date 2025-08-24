@@ -22,35 +22,33 @@ This is a [NestJS](https://github.com/nestjs/nest) application that provides an 
 
 ## Project Setup
 
-1. **Clone the repository**
+For ease of use, you can just copy and paste these instructions in your CLI.
 
-   ```bash
-   git clone <repository-url>
-   cd car-reports-api
-   ```
+In case you find yourself in trouble, don't hesitate to [send me an e-mail](mailto:a@ivanderlich.com) asking for help.
 
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Environment Configuration**
-
-   Create two files for each environment (`.env`, `.env.test`, ) with the required variables:
-
-   ```env
-   COOKIE_KEY=your-secret-cookie-key-here
-   DB_NAME=your-database-name.sqlite
-   ```
-
-   > **Note**: Use different database names for testing to avoid resetting your development database during test runs.
-
-## Running the Application
-
-### Run Server locally
+For better understanding of each step, you can run each command one by one.
 
 ```bash
+
+# Clone repo
+git clone git@github.com:IvanDerlich/car-reports.git
+
+# Move to the repo folder
+cd car-reports
+
+# Install Dependencies
+npm install
+
+# Create an enviorenment variables file
+touch .env
+
+# Add your custom cookie value to the .env file
+# Note: You can use other values here
+echo "COOKIE_KEY=your-secret-test-cookie-key-here" > .env
+
+# Add your custom database value to the .env file
+# Note: You can use other values here
+echo "DB_NAME=db.your-local-database-name.sqlite" >> .env
 
 # Run Migrations
 npm run migrations:run
@@ -60,99 +58,32 @@ npm run db:seed
 
 # Start in development mode with hot reload
 npm run dev
-
-
 ```
 
-Once the API server is running:
+After running these commands you should see something like this in your console
 
-### API Testing with VS Code/Cursor
+<img src="./docs/Successful Setup.png">
 
-For easy API testing without complex setup, you can use the included .http files in VS Code or Cursor:
+## Usage
 
-/src/users/request.http
+This is how to start interacting with the newly created service:
 
-/src/reports/request.http
+1. **Define the proper tool**
+   Once the API server is running you should see something like this
 
-Or with Postman
+### API Testing with VS Code/Cursor (.http files)
 
-## Testing
-
-The project includes comprehensive testing with Jest:
-
-### Unit Tests
-
-```bash
-# Run unit tests
-npm run test
-
-# Run unit tests with coverage
-npm run test:cov
-```
-
-### End-to-End Tests
-
-```bash
-# Run e2e tests
-npm run test:e2e
-```
-
-### Test Coverage
-
-```bash
-
-
-
-
-### Users API Testing
-Use src/users/request.http to test user-related endpoints:
-- User registration and authentication
-- User management operations
-- Session handling
-
-### Reports API Testing
-Use src/reports/requests.http to test report-related endpoints:
-- Report creation and management
-- Price estimation functionality
-- Report approval/rejection
-
-### How to Use
 1. Open the .http file in VS Code or Cursor
 2. Install the "REST Client" extension if not already installed
-3. Click the "Send Request" link above each request
-4. View responses directly in the editor
+3. Open .http files
+   /src/users/request.http
+   /src/reports/request.http
+4. Click the "Send Request" link above each request
+5. View responses directly in the editor
 
 This provides a simple way to test the API functionality without needing external tools like Postman or curl.
-npm run test:cov:json
-```
 
-## Database Management
-
-The project includes several database management scripts:
-
-```bash
-# Clear the database
-npm run db:clear
-
-# Seed the database with sample data
-npm run db:seed
-
-# Reset the database (clear + seed)
-npm run db:reset
-```
-
-## Code Quality
-
-```bash
-# Lint and fix code
-npm run lint
-
-# Format code
-npm run format
-
-# Check code formatting
-npm run format:check
-```
+### API Testing with Postman
 
 ## API Endpoints
 
@@ -181,6 +112,118 @@ The price estimation feature uses a rule-based statistical algorithm that:
    - Mileage (0 to 1,000,000)
 
 This approach provides price estimates by averaging user-submitted reports of similar vehicles in the same geographic area using predefined filtering rules.
+
+## Testing
+
+The project includes comprehensive testing with Jest:
+
+## Test Setup
+
+Don't proceed if you haven't set the local environment (Project Setup)
+
+If you want to run tests locally you can copy and paste these instructions in your CLI.
+
+In case you find yourself in trouble, don't hesitate to [send me an e-mail](mailto:a@ivanderlich.com) asking for help.
+
+For better understanding of each step, you can run each command one by one.
+
+```bash
+
+# Create a file .env.test
+touch .env.test
+
+# Define a custom cookie key
+echo "COOKIE_KEY=your-secret-test-cookie-key-here" > .env
+
+# Define a custom database name
+echo "DB_NAME=db.your-test-database-name.sqlite" >> .env
+
+# Run Unit Tests
+npm run test
+
+# Run End to End tests
+npm run test:e2e
+```
+
+Note: You can use other values here
+
+### Other tests features
+
+**Code Coverage**
+
+```bash
+npm run test:cov
+```
+
+```bash
+### Users API Testing
+Use src/users/request.http to test user-related endpoints:
+- User registration and authentication
+- User management operations
+- Session handling
+
+### Reports API Testing
+Use src/reports/requests.http to test report-related endpoints:
+- Report creation and management
+- Price estimation functionality
+- Report approval/rejection
+- Get all tests
+- Get a single test by id
+
+
+npm run test:cov:json
+```
+
+## Database Management
+
+The project includes several database management scripts:
+
+```bash
+# Clear the database
+npm run db:clear
+
+# Seed the database with sample data
+npm run db:seed
+
+# Reset the database (clear + seed)
+npm run db:reset
+```
+
+### Peek data in the database
+
+```bash
+
+# Update
+sudo apt update 
+
+# Install sqlite
+sudo apt install sqlite3
+
+# Access the database console
+sqlite3 [your-database-name].sqlite
+
+# See all tables
+.tables
+
+# See data inside users
+select * from user;
+
+# See data inside reports
+select * from report;
+```
+
+## Code Quality
+
+```bash
+# Lint and fix code (Not implemented)
+npm run lint
+
+# Format code
+npm run format
+
+# Check code formatting
+npm run format:check
+```
 
 ## Environment Variables
 
@@ -217,6 +260,7 @@ dev/
 ## Future improvements
 
 - **Server side sessions:** so we don't rely on client side cooking for de-authentication
+- **Proper linting** So we can add more features with less propensity to errors and rework
 
 ## Contributing
 
@@ -230,3 +274,7 @@ dev/
 ## License
 
 This project is licensed under the MIT License.
+
+## Author
+
+[Ivan Derlich](ivanderlich.com)
