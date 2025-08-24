@@ -53,4 +53,10 @@ export class ReportsController {
   getAllReports() {
     return this.reportsService.getAll();
   }
+
+  @Serialize(ReportDto)
+  @Get('/:id')
+  getReportById(@Param('id') id: string) {
+    return this.reportsService.getReportById(id);
+  }
 }

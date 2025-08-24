@@ -27,6 +27,13 @@ export class ReportsService {
     });
   }
 
+  async getReportById(id: string) {
+    return this.reportsRepo.findOne({
+      where: { id: parseInt(id) },
+      relations: ['user'],
+    });
+  }
+
   async setApproval(id: string, approved: boolean) {
     const report = await this.reportsRepo.findOne({
       where: { id: parseInt(id) },
