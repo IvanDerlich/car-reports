@@ -10,12 +10,12 @@ import { clearDatabase } from '../dev/db/clear';
 describe('Reports', () => {
   let app: INestApplication<App>;
   let dataSource: DataSource;
-  let adminUserData = {
+  const adminUserData = {
     email: 'admin@admin.com',
     password: '123456',
     admin: true,
   };
-  let userData = {
+  const userData = {
     email: 'test@test.com',
     password: '123456',
     admin: false,
@@ -167,7 +167,7 @@ describe('Reports', () => {
     let cookie: string[] | undefined;
     beforeEach(async () => {
       // Create an admin user
-      let response = await request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .post('/auth/signup')
         .send(adminUserData)
         .expect(201)
