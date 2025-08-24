@@ -37,7 +37,7 @@ This is a [NestJS](https://github.com/nestjs/nest) application that provides an 
 
 3. **Environment Configuration**
 
-   Create environment files for each environment (`.env.development`, `.env.test`, `.env.production`) with the required variables:
+   Create two files for each environment (`.env`, `.env.test`, ) with the required variables:
 
    ```env
    COOKIE_KEY=your-secret-cookie-key-here
@@ -48,31 +48,30 @@ This is a [NestJS](https://github.com/nestjs/nest) application that provides an 
 
 ## Running the Application
 
-### Development Mode
+### Run Server locally
 
 ```bash
+
+# Run Migrations
+npm run migrations:run
+
 # Start in development mode with hot reload
-npm run start:dev
-
-# Or use the dev alias
 npm run dev
+
+
 ```
 
-### Production Mode
+Once the API server is running:
 
-```bash
-# Build the application
-npm run build
+### API Testing with VS Code/Cursor
 
-# Start in production mode
-npm run start:prod
-```
+For easy API testing without complex setup, you can use the included .http files in VS Code or Cursor:
 
-### Debug Mode
+/src/users/request.http
 
-```bash
-npm run start:debug
-```
+/src/reports/request.http
+
+Or with Postman
 
 ## Testing
 
@@ -83,9 +82,6 @@ The project includes comprehensive testing with Jest:
 ```bash
 # Run unit tests
 npm run test
-
-# Run unit tests in watch mode
-npm run test:watch
 
 # Run unit tests with coverage
 npm run test:cov
@@ -101,14 +97,9 @@ npm run test:e2e
 ### Test Coverage
 
 ```bash
-# Generate coverage report
-npm run test:cov
 
-# Generate coverage report in JSON format
 
-## API Testing with VS Code/Cursor
 
-For easy API testing without complex setup, you can use the included .http files in VS Code or Cursor:
 
 ### Users API Testing
 Use src/users/request.http to test user-related endpoints:
