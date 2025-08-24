@@ -200,6 +200,35 @@ describe('Reports', () => {
       }
     });
 
+    it('should get all reports', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/reports/all')
+        .expect(200);
+      expect(response.body).toMatchObject(reportsData);
+    });
+
+    it.only('should get a report by id', async () => {
+      let response = await request(app.getHttpServer())
+        .get('/reports/1')
+        .expect(200);
+      expect(response.body).toMatchObject(reportsData[0]);
+
+      response = await request(app.getHttpServer())
+        .get('/reports/2')
+        .expect(200);
+      expect(response.body).toMatchObject(reportsData[1]);
+
+      response = await request(app.getHttpServer())
+        .get('/reports/3')
+        .expect(200);
+      expect(response.body).toMatchObject(reportsData[2]);
+
+      response = await request(app.getHttpServer())
+        .get('/reports/4')
+        .expect(200);
+      expect(response.body).toMatchObject(reportsData[3]);
+    });
+
     it('should get an estimate for a report', async () => {
       const URI = `/reports?make=${targetReportData.make}&model=${targetReportData.model}&year=${targetReportData.year}&lng=${targetReportData.lng}&lat=${targetReportData.lat}&mileage=${targetReportData.mileage}`;
       let response = await request(app.getHttpServer()).get(URI).expect(200);
