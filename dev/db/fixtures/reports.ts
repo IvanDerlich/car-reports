@@ -91,6 +91,34 @@ export const reportsFixtures: CustomReportData[] = [
     mileage: 10000,
     price: 10000,
   },
-
-  
+  {
+    make: 'Ford',
+    model: 'Mustang',
+    year: 2019,
+    lng: 8,
+    lat: 12,
+    mileage: 10100,
+    price: 10010,
+    approved: true,
+  },
+  {
+    make: 'Ford',
+    model: 'Mustang',
+    year: 2021,
+    lng: 12,
+    lat: 8,
+    mileage: 10200,
+    price: 10020,
+    approved: true,
+  },
+  {
+    make: 'Ford',
+    model: 'Mustang',
+    year: 2022,
+    lng: 7,
+    lat: 8,
+    mileage: 10300,
+    price: 10030,
+    approved: true,
+  },
 ];

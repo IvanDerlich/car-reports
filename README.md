@@ -55,6 +55,9 @@ This is a [NestJS](https://github.com/nestjs/nest) application that provides an 
 # Run Migrations
 npm run migrations:run
 
+# Seed the database
+npm run db:seed
+
 # Start in development mode with hot reload
 npm run dev
 

@@ -12,7 +12,6 @@ import { reportsFixtures } from './fixtures/reports';
 
 // Seeder function that requires a DataSource
 export const seedDatabase = async (dataSource: DataSource) => {
-
   // Create 10 random users with random user factory
   const randomUsers = await RandomUserFactory.makeMany(10);
 
@@ -23,7 +22,7 @@ export const seedDatabase = async (dataSource: DataSource) => {
 
   // Save users to database
   await dataSource.getRepository(User).save(users);
-  console.log(`Created ${users.length} random users`);
+  console.log(`Created ${users.length} users`);
 
   // Create 10 reports with random data
   const randomReports: Report[] = await RandomReportFactory.makeMany(10, users);
@@ -38,5 +37,5 @@ export const seedDatabase = async (dataSource: DataSource) => {
 
   // Save reports to database
   await dataSource.getRepository(Report).save(reports);
-  console.log(`Created ${reports.length} random reports`);
+  console.log(`Created ${reports.length} reports`);
 };
