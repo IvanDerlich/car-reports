@@ -66,6 +66,10 @@ After running these commands you should see something like this in your console
 
 ## Usage
 
+After setting up the server go to the Swagger for the API documentation
+
+http://localhost:3000/api
+
 This is how to start interacting with the newly created service:
 
 1. **Define the proper tool**
@@ -261,6 +265,7 @@ dev/
 
 - **Server side sessions:** so we don't rely on client side cooking for de-authentication
 - **Proper linting** So we can add more features with less propensity to errors and rework
+- **OpenAPI exports** Add a downloadable link of a json file that can be imported to postman or similar tools
 
 ## Contributing
 
