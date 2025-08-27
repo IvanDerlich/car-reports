@@ -276,9 +276,10 @@ dev/
 5. Ensure all tests pass
 6. Submit a pull request
 
-## Notes
+## Help needed
 
-If you find a bug or an error in this project, send me an email to a@ivanderlich.com.
+If you find a bug, an error, or an inconsistence in the documentation send me an email to a@ivanderlich.com 
+or even better: create a pull request.
 This will help me out a lot to improve on my mistakes.
 
 ## License
