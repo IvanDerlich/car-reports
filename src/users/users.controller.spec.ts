@@ -3,7 +3,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -64,12 +64,6 @@ describe('UsersController', () => {
   it('findUser returns a single user with the given id', async () => {
     const user = await controller.findUser('1');
     expect(user?.id).toEqual(1);
-  });
-
-  it('findUser throws an error if user with given id is not found', async () => {
-    // @ts-ignore
-    fakeUsersService.findOneById = () => null;
-    await expect(controller.findUser('2')).rejects.toThrow(NotFoundException);
   });
 
   it('Signs in updates session and returns user', async () => {

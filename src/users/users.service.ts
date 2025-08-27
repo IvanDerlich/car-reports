@@ -22,11 +22,16 @@ export class UsersService {
     return savedUser;
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: number): Promise<User> {
     if (!id) {
-      return null;
+      throw new BadRequestException('id is required');
     }
+
     const user = await this.repo.findOneBy({ id });
+
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
     return user;
   }
 

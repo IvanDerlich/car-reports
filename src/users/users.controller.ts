@@ -94,13 +94,8 @@ export class UsersController {
   @Serialize(UserDto)
   @Get(':id')
   @FindUserDocs()
-  async findUser(@Param('id') id: string): Promise<User | null> {
-    const user = await this.usersService.findOneById(parseInt(id));
-    // Ideally exceptions should be thrown in the service layer
-    if (!user) {
-      throw new NotFoundException('user not found');
-    }
-    return user;
+  async findUser(@Param('id') id: string): Promise<User> {
+    return await this.usersService.findOneById(parseInt(id));
   }
 
   @UseGuards(AuthGuard)

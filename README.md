@@ -276,6 +276,11 @@ dev/
 5. Ensure all tests pass
 6. Submit a pull request
 
+## Notes
+
+If you find a bug or an error in this project, send me an email to a@ivanderlich.com.
+This will help me out a lot to improve on my mistakes.
+
 ## License
 
 This project is licensed under the MIT License.
