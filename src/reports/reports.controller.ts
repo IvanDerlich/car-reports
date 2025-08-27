@@ -18,6 +18,13 @@ import { ReportDto } from './dtos/report.dto';
 import { AdminGuard } from '@/guards/admin.guard';
 import { GetEstimateDto } from './dtos/get-estimate.dto';
 import { GetEstimateReturnValueDto } from './dtos/get-estimate-return-value.dto';
+import {
+  CreateReportDocs,
+  SetApprovalDocs,
+  GetEstimateDocs,
+  GetAllReportsDocs,
+  GetReportByIdDocs,
+} from './reports.controller.docs';
 
 @Controller('reports')
 export class ReportsController {
@@ -28,6 +35,7 @@ export class ReportsController {
   @Serialize(ReportDto)
   @Post()
   @UseGuards(AuthGuard)
+  @CreateReportDocs()
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
     return this.reportsService.create(body, user);
   }
@@ -35,6 +43,7 @@ export class ReportsController {
   @Serialize(ReportDto)
   @Patch('/:id')
   @UseGuards(AdminGuard)
+  @SetApprovalDocs()
   setAproveReport(
     @Param('id') id: string,
     @Body() body: { approved: boolean },
@@ -42,21 +51,24 @@ export class ReportsController {
     return this.reportsService.setApproval(id, body.approved);
   }
 
-  @Serialize(GetEstimateReturnValueDto)
-  @Get()
-  getEstimate(@Query() query: GetEstimateDto) {
-    return this.reportsService.createEstimate(query);
-  }
-
   @Serialize(ReportDto)
   @Get('/all')
+  @GetAllReportsDocs()
   getAllReports() {
     return this.reportsService.getAll();
   }
 
   @Serialize(ReportDto)
   @Get('/:id')
+  @GetReportByIdDocs()
   getReportById(@Param('id') id: string) {
     return this.reportsService.getReportById(id);
+  }
+
+  @Serialize(GetEstimateReturnValueDto)
+  @Get()
+  @GetEstimateDocs()
+  getEstimate(@Query() query: GetEstimateDto) {
+    return this.reportsService.createEstimate(query);
   }
 }

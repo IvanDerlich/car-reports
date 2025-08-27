@@ -70,6 +70,7 @@ export function SigninDocs() {
           value: {
             email: 'admin@example.com',
             password: 'adminpassword123',
+            admin: true,
           },
         },
       },
