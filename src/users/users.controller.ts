@@ -151,6 +151,7 @@ export class UsersController {
     return user;
   }
 
+  @UseGuards(AuthGuard)
   @SerializeResponse(MessageDto) // Override for this specific endpoint
   @Post('signout')
   @ApiOperation({
@@ -162,11 +163,12 @@ export class UsersController {
     description: 'User successfully signed out',
     type: MessageDto, // Fixed: now correctly shows MessageDto
   })
-  async signOut(@Session() session: any) {
+  signOut(@Session() session: any) {
     session.userId = null;
     return { message: 'Signed out successfully' };
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   async findUser(@Param('id') id: string): Promise<User | null> {
     const user = await this.usersService.findOneById(parseInt(id));
@@ -178,16 +180,19 @@ export class UsersController {
   }
 
   // Finds all users with an email
+  @UseGuards(AuthGuard)
   @Get()
   findAllUsersByEmail(@Query('email') email: string): Promise<User[]> {
     return this.usersService.find(email);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   removeUser(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(parseInt(id));
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   updateUser(
     @Param('id') id: string,
