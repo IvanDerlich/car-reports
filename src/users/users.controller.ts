@@ -23,25 +23,20 @@ import { AuthService } from './auth.service';
 import { User } from './user.entity';
 import { CurrentUser } from './decorator/decorator';
 import { AuthGuard } from '@/guards/auth.guard';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBody,
-  ApiCreatedResponse,
-  ApiBadRequestResponse,
-  ApiConflictResponse,
-  ApiInternalServerErrorResponse,
-} from '@nestjs/swagger';
-import {
-  BadRequestErrorDto,
-  ConflictErrorDto,
-  InternalServerErrorDto,
-} from './dtos/error-response.dto';
+import { ApiTags } from '@nestjs/swagger';
 import { MessageDto } from '@/dtos/message.dto';
+import {
+  CreateUserDocs,
+  SigninDocs,
+  WhoAmIDocs,
+  SignOutDocs,
+  FindUserDocs,
+  FindAllUsersDocs,
+  RemoveUserDocs,
+  UpdateUserDocs,
+} from './users.controller.docs';
 
 @ApiTags('Authentication')
-@Serialize(UserDto) // Apply UserDto serialization to all endpoints by default
 @Controller('auth')
 export class UsersController {
   constructor(
@@ -49,39 +44,9 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  @Serialize(UserDto)
   @Post('signup')
-  @ApiOperation({
-    summary: 'Create a new user account',
-    description:
-      'Registers a new user with email and password. Creates a session and returns user data.',
-  })
-  @ApiBody({
-    type: CreateUserDto,
-    description: 'User registration data',
-    examples: {
-      regularUser: {
-        summary: 'Regular User Signup',
-        description: 'Create a new regular user account',
-        value: {
-          email: 'user@example.com',
-          password: 'securepassword123',
-        },
-      },
-      adminUser: {
-        summary: 'Admin User Signup',
-        description: 'Create a new admin user account',
-        value: {
-          email: 'admin@example.com',
-          password: 'adminpassword123',
-          admin: true,
-        },
-      },
-    },
-  })
-  @ApiCreatedResponse({
-    description: 'User successfully created and logged in',
-    type: UserDto,
-  })
+  @CreateUserDocs()
   async createUser(
     @Body() body: CreateUserDto,
     @Session() session: any,
@@ -95,38 +60,9 @@ export class UsersController {
     return user;
   }
 
+  @Serialize(UserDto)
   @Post('signin')
-  @ApiOperation({
-    summary: 'Sign in an existing user',
-    description: 'Logs in a user with email and password. Creates a session.',
-  })
-  @ApiBody({
-    type: CreateUserDto,
-    description: 'User login data',
-    examples: {
-      regularUser: {
-        summary: 'Regular User Signin',
-        description: 'Login a regular user account',
-        value: {
-          email: 'user@example.com',
-          password: 'securepassword123',
-        },
-      },
-      adminUser: {
-        summary: 'Admin User Signin',
-        description: 'Login an admin user account',
-        value: {
-          email: 'admin@example.com',
-          password: 'adminpassword123',
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User successfully logged in',
-    type: UserDto,
-  })
+  @SigninDocs()
   async signin(
     @Body() body: CreateUserDto,
     @Session() session: any,
@@ -137,39 +73,26 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
+  @Serialize(UserDto)
   @Get('whoami')
-  @ApiOperation({
-    summary: 'Get current user information',
-    description: 'Returns the details of the authenticated user.',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User information retrieved successfully',
-    type: UserDto,
-  })
+  @WhoAmIDocs()
   whoAmI(@CurrentUser() user: User) {
     return user;
   }
 
   @UseGuards(AuthGuard)
-  @SerializeResponse(MessageDto) // Override for this specific endpoint
+  @SerializeResponse(MessageDto)
   @Post('signout')
-  @ApiOperation({
-    summary: 'Sign out the current user',
-    description: 'Logs out the current user by clearing the session.',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User successfully signed out',
-    type: MessageDto, // Fixed: now correctly shows MessageDto
-  })
+  @SignOutDocs()
   signOut(@Session() session: any) {
     session.userId = null;
     return { message: 'Signed out successfully' };
   }
 
   @UseGuards(AuthGuard)
+  @Serialize(UserDto)
   @Get(':id')
+  @FindUserDocs()
   async findUser(@Param('id') id: string): Promise<User | null> {
     const user = await this.usersService.findOneById(parseInt(id));
     // Ideally exceptions should be thrown in the service layer
@@ -179,21 +102,26 @@ export class UsersController {
     return user;
   }
 
-  // Finds all users with an email
   @UseGuards(AuthGuard)
+  @Serialize(UserDto)
   @Get()
+  @FindAllUsersDocs()
   findAllUsersByEmail(@Query('email') email: string): Promise<User[]> {
     return this.usersService.find(email);
   }
 
   @UseGuards(AuthGuard)
+  @Serialize(UserDto)
   @Delete(':id')
+  @RemoveUserDocs()
   removeUser(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(parseInt(id));
   }
 
   @UseGuards(AuthGuard)
+  @Serialize(UserDto)
   @Patch(':id')
+  @UpdateUserDocs()
   updateUser(
     @Param('id') id: string,
     @Body() body: UpdateUserDto,
