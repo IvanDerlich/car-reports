@@ -144,4 +144,46 @@ describe('Authentication System (e2e)', () => {
   it('Returns an error if the user tries to delete a user without being signed in', async () => {
     await request(app.getHttpServer()).delete('/auth/1').expect(401);
   });
+
+  it.only('Returns an error if the user tries to delete a user with reports associated with their account', async () => {
+    // login as admin
+    const userData = {
+      email: 'admin@admin.com',
+      password: '123456',
+      admin: true,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(userData)
+      .expect(201)
+      .expect({ id: 1, email: 'admin@admin.com', admin: true });
+
+    const cookie = response.get('Set-Cookie');
+
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    // create a report
+    await request(app.getHttpServer())
+      .post('/reports')
+      .set('Cookie', cookie)
+      .send({
+        make: 'Ford',
+        model: 'Focus',
+        year: 2020,
+        mileage: 10000,
+        lng: 0,
+        lat: 0,
+        price: 10000,
+      })
+      .expect(201);
+
+    // delete the user
+    await request(app.getHttpServer())
+      .delete('/auth/1')
+      .set('Cookie', cookie)
+      .expect(400);
+  });
 });
