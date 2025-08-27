@@ -145,7 +145,7 @@ describe('Authentication System (e2e)', () => {
     await request(app.getHttpServer()).delete('/auth/1').expect(401);
   });
 
-  it.only('Returns an error if the user tries to delete a user with reports associated with their account', async () => {
+  it('Returns an error if the user tries to delete a user with reports associated with their account', async () => {
     // login as admin
     const userData = {
       email: 'admin@admin.com',
@@ -185,5 +185,55 @@ describe('Authentication System (e2e)', () => {
       .delete('/auth/1')
       .set('Cookie', cookie)
       .expect(400);
+  });
+
+  it('Returns an error if the user tries to delete a user but is not an admin', async () => {
+    const userData = {
+      email: 'test@test.com',
+      password: '123456',
+      admin: false,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(userData)
+      .expect(201)
+      .expect({ id: 1, email: 'test@test.com', admin: false });
+
+    const cookie = response.get('Set-Cookie');
+
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    await request(app.getHttpServer())
+      .delete('/auth/1')
+      .set('Cookie', cookie)
+      .expect(403);
+  });
+
+  it('Returns an error if the user tries to update a user but is not an admin', async () => {
+    const userData = {
+      email: 'test@test.com',
+      password: '123456',
+      admin: false,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(userData)
+      .expect(201)
+      .expect({ id: 1, email: 'test@test.com', admin: false });
+
+    const cookie = response.get('Set-Cookie');
+
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    await request(app.getHttpServer())
+      .patch('/auth/1')
+      .set('Cookie', cookie)
+      .expect(403);
   });
 });

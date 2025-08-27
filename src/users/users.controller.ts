@@ -35,6 +35,7 @@ import {
   RemoveUserDocs,
   UpdateUserDocs,
 } from './users.controller.docs';
+import { AdminGuard } from '@/guards/admin.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -110,7 +111,7 @@ export class UsersController {
     return this.usersService.find(email);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AdminGuard)
   @Serialize(UserDto)
   @Delete(':id')
   @RemoveUserDocs()
@@ -118,7 +119,7 @@ export class UsersController {
     return this.usersService.remove(parseInt(id));
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AdminGuard)
   @Serialize(UserDto)
   @Patch(':id')
   @UpdateUserDocs()
