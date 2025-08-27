@@ -117,7 +117,31 @@ describe('Authentication System (e2e)', () => {
       .expect({ id: 1, email: 'test@test.com', admin: false });
   });
 
-  it.only("Returns an error if there's no signed in user and the user tries to get the current user", async () => {
+  it("Returns an error if there's no signed in user and the user tries to get the current user", async () => {
     await request(app.getHttpServer()).get('/auth/whoami').expect(401);
+  });
+
+  it('Returns an error if the user tries to sign out without being signed in', async () => {
+    await request(app.getHttpServer()).post('/auth/signout').expect(401);
+  });
+
+  it('Returns an error if the user tries to get the current user without being signed in', async () => {
+    await request(app.getHttpServer()).get('/auth/whoami').expect(401);
+  });
+
+  it('Returns an error if the user tries to get a user by id without being signed in', async () => {
+    await request(app.getHttpServer()).get('/auth/1').expect(401);
+  });
+
+  it('Returns an error if the user tries to get all users without being signed in', async () => {
+    await request(app.getHttpServer()).get('/auth').expect(401);
+  });
+
+  it('Returns an error if the user tries to update a user without being signed in', async () => {
+    await request(app.getHttpServer()).patch('/auth/1').expect(401);
+  });
+
+  it('Returns an error if the user tries to delete a user without being signed in', async () => {
+    await request(app.getHttpServer()).delete('/auth/1').expect(401);
   });
 });
