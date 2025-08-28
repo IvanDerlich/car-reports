@@ -198,7 +198,7 @@ npm run db:reset
 ```bash
 
 # Update
-sudo apt update 
+sudo apt update
 
 # Install sqlite
 sudo apt install sqlite3
@@ -278,8 +278,7 @@ dev/
 
 ## Help needed
 
-If you find a bug, an error, or an inconsistence in the documentation send me an email to a@ivanderlich.com 
-or even better: create a pull request.
+If you find a bug, an error, an improvement to do, or an inconsistence in the documentation send me an email to a@ivanderlich.com or even better: create a pull request.
 This will help me out a lot to improve on my mistakes.
 
 ## License
