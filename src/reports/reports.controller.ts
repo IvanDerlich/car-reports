@@ -26,6 +26,7 @@ import {
   GetReportByIdDocs,
 } from './reports.controller.docs';
 
+@UseGuards(AuthGuard)
 @Controller('reports')
 export class ReportsController {
   constructor(private reportsService: ReportsService) {
@@ -34,7 +35,6 @@ export class ReportsController {
 
   @Serialize(ReportDto)
   @Post()
-  @UseGuards(AuthGuard)
   @CreateReportDocs()
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
     return this.reportsService.create(body, user);
