@@ -236,4 +236,54 @@ describe('Authentication System (e2e)', () => {
       .set('Cookie', cookie)
       .expect(403);
   });
+
+  it('Returns an error if the user tries to get all users without being an admin', async () => {
+    const userData = {
+      email: 'test@test.com',
+      password: '123456',
+      admin: false,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(userData)
+      .expect(201)
+      .expect({ id: 1, email: 'test@test.com', admin: false });
+
+    const cookie = response.get('Set-Cookie');
+
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    await request(app.getHttpServer())
+      .get('/auth')
+      .set('Cookie', cookie)
+      .expect(403);
+  });
+
+  it('Returns an error if the user tries to get a user by id without being an admin', async () => {
+    const userData = {
+      email: 'test@test.com',
+      password: '123456',
+      admin: false,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send(userData)
+      .expect(201)
+      .expect({ id: 1, email: 'test@test.com', admin: false });
+
+    const cookie = response.get('Set-Cookie');
+
+    if (!cookie) {
+      throw new Error('Cookie is undefined');
+    }
+
+    await request(app.getHttpServer())
+      .get('/auth/1')
+      .set('Cookie', cookie)
+      .expect(403);
+  });
 });

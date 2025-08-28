@@ -9,7 +9,6 @@ import {
   Patch,
   Session,
   UseGuards,
-  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -90,17 +89,17 @@ export class UsersController {
     return { message: 'Signed out successfully' };
   }
 
-  @UseGuards(AuthGuard)
   @Serialize(UserDto)
   @Get(':id')
+  @UseGuards(AdminGuard)
   @FindUserDocs()
   async findUser(@Param('id') id: string): Promise<User> {
     return await this.usersService.findOneById(parseInt(id));
   }
 
-  @UseGuards(AuthGuard)
   @Serialize(UserDto)
   @Get()
+  @UseGuards(AdminGuard)
   @FindAllUsersDocs()
   findAllUsersByEmail(@Query('email') email: string): Promise<User[]> {
     return this.usersService.find(email);

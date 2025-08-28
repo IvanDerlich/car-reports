@@ -308,8 +308,6 @@ describe('Reports', () => {
 
       let cookie = response.get('Set-Cookie');
 
-      console.log(cookie);
-
       if (!cookie) {
         throw new Error('Cookie is undefined');
       }
