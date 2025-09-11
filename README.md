@@ -1,290 +1,399 @@
-# Car Reports API
+# 🚗 Car Reports API
 
-A NestJS-based API for managing car reports with user authentication and reporting functionality.
+[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-## Description
+> A robust NestJS-based API for managing car reports with intelligent price estimation, user authentication, and comprehensive reporting functionality.
 
-This is a [NestJS](https://github.com/nestjs/nest) application that provides an API for managing car reports. The application includes user authentication, report management, and uses SQLite as the database.
+## 📋 Table of Contents
 
-## Features
+- [Features](#-features)
+- [Quick Start](#-quick-start)
+- [API Documentation](#-api-documentation)
+- [Price Estimation Algorithm](#-price-estimation-algorithm)
+- [Project Structure](#-project-structure)
+- [Development](#-development)
+- [Testing](#-testing)
+- [Database Management](#-database-management)
+- [Environment Variables](#-environment-variables)
+- [Technologies](#-technologies)
+- [Contributing](#-contributing)
+- [Troubleshooting](#-troubleshooting)
+- [License](#-license)
 
-- User authentication with cookie sessions
-- **Price estimation based on similar car reports** - Calculate price estimates using a statistical approach that finds the 3 most similar approved reports based on make, model, location, year, and mileage
-- Car reports management
-- SQLite database with TypeORM
-- Input validation with class-validator
-- Comprehensive testing suite (unit and e2e tests)
+## ✨ Features
 
-## Prerequisites
+### 🔐 Authentication & Authorization
 
-- Node.js (v18 or higher)
-- npm or yarn
+- **Session-based authentication** with secure cookie management
+- **Role-based access control** (Admin vs Regular users)
+- **User management** (CRUD operations with admin privileges)
 
-## Project Setup
+### 📊 Car Reports Management
 
-For ease of use, you can just copy and paste these instructions in your CLI.
+- **Create, read, and approve/disapprove** car reports
+- **Geographic filtering** with longitude/latitude coordinates
+- **Comprehensive validation** with class-validator
+- **Report approval workflow** (Admin-only feature)
 
-In case you find yourself in trouble, don't hesitate to [send me an e-mail](mailto:a@ivanderlich.com) asking for help.
+### 🧠 Intelligent Price Estimation
 
-For better understanding of each step, you can run each command one by one.
+- **Statistical algorithm** that finds the 3 most similar approved reports
+- **Multi-factor matching**: make, model, location, year, and mileage
+- **Geographic proximity** filtering (±5 degrees)
+- **Year range** matching (±3 years)
+- **Mileage-based** similarity scoring
+
+### 📚 Developer Experience
+
+- **Rich Swagger documentation** with interactive API explorer
+- **Comprehensive testing suite** (Unit + E2E tests)
+- **Code coverage reporting**
+- **Database seeding** with sample data
+- **VS Code REST Client** support (.http files)
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **npm** or **yarn**
+
+### Installation
 
 ```bash
-
-# Clone repo
-git clone git@github.com:IvanDerlich/car-reports.git
-
-# Move to the repo folder
+# Clone the repository
+git clone https://github.com/IvanDerlich/car-reports.git
 cd car-reports
 
-# Install Dependencies
+# Install dependencies
 npm install
 
-# Create an enviorenment variables file
+# Create environment variables file
 touch .env
 
 # Add your custom cookie value to the .env file
-# Note: You can use other values here
 echo "COOKIE_KEY=your-secret-test-cookie-key-here" > .env
 
 # Add your custom database value to the .env file
-# Note: You can use other values here
 echo "DB_NAME=db.your-local-database-name.sqlite" >> .env
 
 # Run Migrations
 npm run migrations:run
 
-# Seed the database
+# Seed the database with sample data
 npm run db:seed
 
-# Start in development mode with hot reload
+# Start the development server
 npm run dev
 ```
 
-After running these commands you should see something like this in your console
+🎉 **Success!** Your API is now running at `http://localhost:3000`
 
-<img src="./docs/Successful Setup.png">
+### What You Should See
 
-## Usage
+After successful setup, you should see something like this:
 
-After setting up the server go to the Swagger for the API documentation
+![Successful Setup](docs/Successful%20Setup.png)
 
-http://localhost:3000/api
+## 📖 API Documentation
 
-This is how to start interacting with the newly created service:
+### Interactive Documentation and Endpoints
 
-1. **Define the proper tool**
-   Once the API server is running you should see something like this
+Visit the **Swagger UI** at: http://localhost:3000/api
 
-### API Testing with VS Code/Cursor (.http files)
+Interesting ideas to try with these endpoints
 
-1. Open the .http file in VS Code or Cursor
-2. Install the "REST Client" extension if not already installed
-3. Open .http files
-   /src/users/request.http
-   /src/reports/request.http
-4. Click the "Send Request" link above each request
-5. View responses directly in the editor
+- Create a new user admin user
+- Logout
+- Login
+- Who am I who's logged in with who am I endpoint
+- Create reports
+- Approve reports (only admins can do this)
+- See all reports
+- Get an estimate of a report: Swagger has preset values for your query and the database should be seeded so you can get an average price
+- See how adding a report within range changes the average price
+- See how adding more reports out of range or unapproved doesn't change the estimate (see price estimation algorithm)
+- See how adding a report that has too much mileage difference with the target report that already has 3 matches doesn't change the average.
+- See how adding a report that has a mileage closer to the target report changes the average
 
-This provides a simple way to test the API functionality without needing external tools like Postman or curl.
+- Check that a non-admin user can't:
+  - See all users
+  - Look for a single user by:
+    - Id
+    - Email
+  - Delete any user
+  - Update a user
+  - Approve or reject a report
 
-### API Testing with Postman
+### Testing with REST Client
 
-## API Endpoints
+Use the included `.http` files for easy API testing:
 
-The API provides endpoints for:
+- **User endpoints**: `src/users/request.http`
+- **Report endpoints**: `src/reports/requests.http`
 
-- **Users**: User registration, authentication, and management
-- **Reports**: Car report creation, retrieval, and management
-- **Price Estimation**: Calculate price estimates based on similar car reports in the database
+## 🧮 Price Estimation Algorithm
 
-### Price Estimation Algorithm
+The price estimation feature uses a sophisticated statistical approach:
 
-The price estimation feature uses a rule-based statistical algorithm that:
+### Algorithm Steps
 
-1. **Finds Similar Cars**: Searches for the 3 most similar approved reports based on:
+1. **🔍 Find Similar Cars**
    - Same make and model
-   - Geographic proximity (±5 degrees longitude/latitude)
+   - Geographic proximity (±5° longitude/latitude)
    - Similar year (±3 years)
    - Closest mileage
 
-2. **Calculates Average Price**: Returns the average price of the 3 most similar reports
+2. **📊 Calculate Average**
+   - Returns average price of 3 most similar **approved** reports
+   - Ignores unapproved reports for accuracy
 
-3. **Input Requirements**:
+3. **📝 Input Requirements**
    - Car make and model
    - Year (1930 to current year)
    - Geographic coordinates (longitude/latitude)
    - Mileage (0 to 1,000,000)
 
-This approach provides price estimates by averaging user-submitted reports of similar vehicles in the same geographic area using predefined filtering rules.
-
-## Testing
-
-The project includes comprehensive testing with Jest:
-
-## Test Setup
-
-Don't proceed if you haven't set the local environment (Project Setup)
-
-If you want to run tests locally you can copy and paste these instructions in your CLI.
-
-In case you find yourself in trouble, don't hesitate to [send me an e-mail](mailto:a@ivanderlich.com) asking for help.
-
-For better understanding of each step, you can run each command one by one.
-
-```bash
-
-# Create a file .env.test
-touch .env.test
-
-# Define a custom cookie key
-echo "COOKIE_KEY=your-secret-test-cookie-key-here" > .env
-
-# Define a custom database name
-echo "DB_NAME=db.your-test-database-name.sqlite" >> .env
-
-# Run Unit Tests
-npm run test
-
-# Run End to End tests
-npm run test:e2e
-```
-
-Note: You can use other values here
-
-### Other tests features
-
-**Code Coverage**
-
-```bash
-npm run test:cov
-```
-
-```bash
-### Users API Testing
-Use src/users/request.http to test user-related endpoints:
-- User registration and authentication
-- User management operations
-- Session handling
-
-### Reports API Testing
-Use src/reports/requests.http to test report-related endpoints:
-- Report creation and management
-- Price estimation functionality
-- Report approval/rejection
-- Get all tests
-- Get a single test by id
-
-
-npm run test:cov:json
-```
-
-## Database Management
-
-The project includes several database management scripts:
-
-```bash
-# Clear the database
-npm run db:clear
-
-# Seed the database with sample data
-npm run db:seed
-
-# Reset the database (clear + seed)
-npm run db:reset
-```
-
-### Peek data in the database
-
-```bash
-
-# Update
-sudo apt update
-
-# Install sqlite
-sudo apt install sqlite3
-
-# Access the database console
-sqlite3 [your-database-name].sqlite
-
-# See all tables
-.tables
-
-# See data inside users
-select * from user;
-
-# See data inside reports
-select * from report;
-```
-
-## Code Quality
-
-```bash
-# Lint and fix code (Not implemented)
-npm run lint
-
-# Format code
-npm run format
-
-# Check code formatting
-npm run format:check
-```
-
-## Environment Variables
-
-| Variable     | Description                                 | Required | Default     |
-| ------------ | ------------------------------------------- | -------- | ----------- |
-| `COOKIE_KEY` | Secret key for cookie session encryption    | Yes      | -           |
-| `DB_NAME`    | SQLite database file path                   | Yes      | -           |
-| `NODE_ENV`   | Environment (development, test, production) | No       | development |
-
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 src/
-├── users/           # User management module
-├── reports/         # Reports management module
-├── app.controller.ts
-├── app.service.ts
-└── app.module.ts
-test/                # End-to-end tests
-dev/
-├── db/             # Database configuration and scripts
-└── scripts/        # Database management scripts
+├── users/                    # User management module
+│   ├── dtos/                # Data Transfer Objects
+│   ├── user.entity.ts       # User entity definition
+│   ├── users.controller.ts  # User endpoints
+│   ├── users.service.ts     # User business logic
+│   └── users.controller.docs.ts # API documentation
+├── reports/                  # Reports management module
+│   ├── dtos/                # Report DTOs
+│   ├── report.entity.ts     # Report entity
+│   ├── reports.controller.ts # Report endpoints
+│   ├── reports.service.ts   # Report business logic
+│   └── reports.controller.docs.ts # API documentation
+├── guards/                   # Authentication guards
+├── interceptors/            # Response serialization
+├── validators/              # Custom validation rules
+└── main.ts                  # Application entry point
 ```
 
-## Technologies Used
+## 🛠️ Development
 
-- **Framework**: NestJS
-- **Database**: SQLite with TypeORM
-- **Authentication**: Cookie sessions client side
-- **Validation**: class-validator
-- **Testing**: Jest
-- **Language**: TypeScript
+### Available Scripts
 
-## Future improvements
+```bash
+# Development
+npm run dev              # Start with hot reload
 
-- **Server side sessions:** so we don't rely on client side cooking for de-authentication
-- **Proper linting** So we can add more features with less propensity to errors and rework
-- **OpenAPI exports** Add a downloadable link of a json file that can be imported to postman or similar tools
+# Building
+npm run build            # Build for production
 
-## Contributing
+# Code Quality
+npm run format           # Format code with Prettier
+npm run format:check     # Check code formatting
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
+# Database
+npm run db:clear         # Clear database
+npm run db:seed          # Seed with sample data
+npm run db:reset         # Clear + seed database
+npm run migrations:run   # Run database migrations
+```
 
-## Help needed
+### Environment Setup
 
-If you find a bug, an error, an improvement to do, or an inconsistence in the documentation send me an email to a@ivanderlich.com or even better: create a pull request.
-This will help me out a lot to improve on my mistakes.
+Create a `.env.test` file with the following variables:
 
-## License
+```env
+COOKIE_KEY=your-secret-cookie-key-here
+DB_NAME=db.your-database-name.sqlite
+NODE_ENV=development
+```
 
-This project is licensed under the MIT License.
+## 🧪 Testing
 
-## Author
+### Running Tests
 
-[Ivan Derlich](ivanderlich.com)
+```bash
+# Unit tests
+npm run test
+
+# E2E tests
+npm run test:e2e
+
+# Test coverage for both unit and e2e tests
+npm run test:cov
+
+
+# Watch mode
+npm run test:watch
+```
+
+### Test Structure
+
+- **Unit Tests**: Test individual components and services
+- **E2E Tests**: Test complete API workflows
+- **Coverage Reports**: Available in `coverage/` directory
+
+## 🗄️ Database Management
+
+### SQLite Database
+
+The application uses SQLite with TypeORM for data persistence.
+
+### Database Scripts
+
+```bash
+# Clear all data
+npm run db:clear
+
+# Add sample data
+npm run db:seed
+
+# Reset database (clear + seed)
+npm run db:reset
+```
+
+### Database Inspection
+
+```bash
+# Install SQLite CLI
+sudo apt update && sudo apt install sqlite3
+
+# Access database
+sqlite3 your-database-name.sqlite
+
+# View tables
+.tables
+
+# Query data
+SELECT * FROM user;
+SELECT * FROM report;
+SELECT * FROM migrations;
+```
+
+## ⚙️ Environment Variables
+
+| Variable     | Description                       | Required | Default       |
+| ------------ | --------------------------------- | -------- | ------------- |
+| `COOKIE_KEY` | Secret key for session encryption | ✅       | -             |
+| `DB_NAME`    | SQLite database file path         | ✅       | -             |
+| `NODE_ENV`   | Environment mode                  | ❌       | `development` |
+
+## 🛠️ Technologies
+
+### Backend Stack
+
+- **[NestJS](https://nestjs.com/)** - Progressive Node.js framework
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
+- **[TypeORM](https://typeorm.io/)** - Object-Relational Mapping
+- **[SQLite](https://www.sqlite.org/)** - Lightweight database
+
+### Development Tools
+
+- **[Jest](https://jestjs.io/)** - Testing framework
+- **[Swagger](https://swagger.io/)** - API documentation
+- **[Prettier](https://prettier.io/)** - Code formatting
+- **[ESLint](https://eslint.org/)** - Code linting
+
+### Security & Validation
+
+- **[Argon2](https://github.com/ranisalt/node-argon2)** - Password hashing
+- **[class-validator](https://github.com/typestack/class-validator)** - Input validation
+- **[cookie-session](https://github.com/expressjs/cookie-session)** - Session management
+
+## 🤝 Contributing
+
+Contributions are welcomed! Please follow these steps:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Development Guidelines
+
+- Write tests for new functionality
+- Ensure all tests pass (`npm test`)
+- Follow the existing code style
+- Update documentation as needed
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### Database Connection Issues
+
+```bash
+# Ensure database file exists
+ls -la *.sqlite
+
+# Check permissions
+chmod 644 your-database.sqlite
+```
+
+# Kill the process
+
+kill -9 <PID>
+
+````
+
+#### Environment Variables Not Loading
+
+```bash
+# Check .env file exists
+ls -la .env
+
+# Verify file format (no spaces around =)
+cat .env
+````
+
+#### Migration Issues
+
+```bash
+# Reset migrations
+npm run db:reset
+npm run migrations:run
+```
+
+### Getting Help
+
+- 📧 **Email**: [a@ivanderlich.com](mailto:a@ivanderlich.com)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/IvanDerlich/car-reports/issues)
+- 📖 **Documentation**: [Swagger UI](http://localhost:3000/api)
+
+## 🚀 Future Improvements
+
+- [ ] **Server-side sessions** for better security
+- [ ] **JWT authentication** as alternative to cookies
+- [ ] **Rate limiting** and API throttling
+- [ ] **OpenAPI export** for Postman/Insomnia
+- [ ] **Docker containerization**
+- [ ] **CI/CD pipeline** setup
+- [ ] **Performance monitoring** and logging
+- [ ] **Caching layer** (Redis)
+- [ ] **Email notifications** for report status changes
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Ivan Derlich**
+
+- 🌐 Website: [ivanderlich.com](https://ivanderlich.com)
+- 📧 Email: [a@ivanderlich.com](mailto:a@ivanderlich.com)
+- 💼 LinkedIn: [Ivan Derlich](https://linkedin.com/in/ivanderlich)
+
+---
+
+<div align="center">
+
+**⭐ If you found this project helpful, please give it a star!**
+
+Made with ❤️ by [Ivan Derlich](https://ivanderlich.com)
+
+</div>
