@@ -104,29 +104,43 @@ After successful setup, you should see something like this:
 
 Visit the **Swagger UI** at: http://localhost:3000/api
 
-Interesting ideas to try with these endpoints
+![Swagger 1 of 2](docs/Swagger%201%20of%202.png)
+![Swagger 2 of 2](docs/Swagger%202%20of%202.png)
 
-- Create a new user admin user
-- Logout
-- Login
-- Who am I who's logged in with who am I endpoint
-- Create reports
-- Approve reports (only admins can do this)
-- See all reports
-- Get an estimate of a report: Swagger has preset values for your query and the database should be seeded so you can get an average price
-- See how adding a report within range changes the average price
-- See how adding more reports out of range or unapproved doesn't change the estimate (see price estimation algorithm)
-- See how adding a report that has too much mileage difference with the target report that already has 3 matches doesn't change the average.
-- See how adding a report that has a mileage closer to the target report changes the average
+### 🧪 Testing Scenarios
 
-- Check that a non-admin user can't:
-  - See all users
-  - Look for a single user by:
-    - Id
-    - Email
-  - Delete any user
-  - Update a user
-  - Approve or reject a report
+Here are some recommended workflows to explore the API functionality:
+
+#### User Management & Authentication
+
+- **Create an admin user** and test role-based permissions
+- **Login/logout** to verify session management
+- **Use the whoAmI endpoint** to check your current authentication status
+- **Create regular users** and test different permission levels
+
+#### Report Management
+
+- **Create car reports** with various vehicle data
+- **Approve/reject reports** (admin-only functionality)
+- **View all reports** and test filtering capabilities
+- **Get price estimates** using the preset values in Swagger (database is pre-seeded for testing)
+
+#### Price Estimation Algorithm Testing
+
+- **Test price changes**: Add reports within the algorithm's range and observe how the average price updates
+- **Verify filtering**: Add reports outside the geographic/year range or unapproved reports to confirm they don't affect estimates
+- **Test mileage limits**: Add reports with excessive mileage differences when 3 matches already exist to verify they're ignored
+- **Test closer matches**: Add reports with better mileage proximity to see how they change the average
+
+#### Authorization Testing
+
+Verify that non-admin users **cannot**:
+
+- View all users
+- Search for users by ID or email
+- Delete any user
+- Update user information
+- Approve or reject reports
 
 ### Testing with REST Client
 
@@ -137,7 +151,7 @@ Use the included `.http` files for easy API testing:
 
 ## 🧮 Price Estimation Algorithm
 
-The price estimation feature uses a sophisticated statistical approach:
+The price estimation feature uses a statistical approach:
 
 ### Algorithm Steps
 
@@ -201,17 +215,17 @@ npm run db:reset         # Clear + seed database
 npm run migrations:run   # Run database migrations
 ```
 
+## 🧪 Testing
+
 ### Environment Setup
 
-Create a `.env.test` file with the following variables:
+Create a `.env.test` file at the root with the following variables:
 
 ```env
 COOKIE_KEY=your-secret-cookie-key-here
 DB_NAME=db.your-database-name.sqlite
 NODE_ENV=development
 ```
-
-## 🧪 Testing
 
 ### Running Tests
 
