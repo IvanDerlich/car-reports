@@ -128,8 +128,8 @@ export function FindUserDocs() {
 export function FindAllUsersDocs() {
   return applyDecorators(
     ApiOperation({
-      summary: 'Find users by email',
-      description: 'Retrieves all users matching the provided email.',
+      summary: 'Find all users',
+      description: 'Retrieves all users.',
     }),
     ApiResponse({
       status: 200,
@@ -181,6 +181,15 @@ export function UpdateUserDocs() {
       status: 200,
       description: 'User updated successfully',
       type: UserDto,
+    }),
+  );
+}
+
+export function FindAllUserByEmailsDocs() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Find all users by email',
+      description: 'Retrieves all users matching the provided email.',
     }),
   );
 }
