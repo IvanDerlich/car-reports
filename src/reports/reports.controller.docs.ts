@@ -138,12 +138,12 @@ export function GetEstimateDocs() {
     ApiQuery({
       name: 'make',
       description: 'Car manufacturer (e.g., Toyota, Honda)',
-      example: 'Toyota',
+      example: 'Ford',
     }),
     ApiQuery({
       name: 'model',
       description: 'Car model (e.g., Camry, Accord)',
-      example: 'Camry',
+      example: 'Mustang',
     }),
     ApiQuery({
       name: 'year',
@@ -153,17 +153,17 @@ export function GetEstimateDocs() {
     ApiQuery({
       name: 'mileage',
       description: 'Car mileage in miles',
-      example: 50000,
+      example: 10000,
     }),
     ApiQuery({
       name: 'lng',
       description: 'Longitude coordinate',
-      example: -122.4194,
+      example: 10,
     }),
     ApiQuery({
       name: 'lat',
       description: 'Latitude coordinate',
-      example: 37.7749,
+      example: 10,
     }),
     ApiResponse({
       status: 200,
