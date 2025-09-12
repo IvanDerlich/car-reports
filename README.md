@@ -92,17 +92,15 @@ npm run dev
 
 🎉 **Success!** Your API is now running at `http://localhost:3000`
 
-### What You Should See
-
-After successful setup, you should see something like this:
+Now you should be seeing something like this:
 
 ![Successful Setup](docs/Successful%20Setup.png)
 
 ## 📖 API Documentation
 
-### Interactive Documentation and Endpoints
+Once the service is running locally visit the **Swagger UI** at:
 
-Visit the **Swagger UI** at: http://localhost:3000/api
+http://localhost:3000/api
 
 ![Swagger 1 of 2](docs/Swagger%201%20of%202.png)
 ![Swagger 2 of 2](docs/Swagger%202%20of%202.png)
@@ -144,7 +142,7 @@ Verify that non-admin users **cannot**:
 
 ### Testing with REST Client
 
-Use the included `.http` files for easy API testing:
+Use the included `.http` files for easy API testing with you IDE and the proper plugin:
 
 - **User endpoints**: `src/users/request.http`
 - **Report endpoints**: `src/reports/requests.http`
@@ -174,23 +172,38 @@ The price estimation feature uses a statistical approach:
 ## 🏗️ Project Structure
 
 ```
-src/
-├── users/                    # User management module
-│   ├── dtos/                # Data Transfer Objects
-│   ├── user.entity.ts       # User entity definition
-│   ├── users.controller.ts  # User endpoints
-│   ├── users.service.ts     # User business logic
-│   └── users.controller.docs.ts # API documentation
-├── reports/                  # Reports management module
-│   ├── dtos/                # Report DTOs
-│   ├── report.entity.ts     # Report entity
-│   ├── reports.controller.ts # Report endpoints
-│   ├── reports.service.ts   # Report business logic
-│   └── reports.controller.docs.ts # API documentation
-├── guards/                   # Authentication guards
-├── interceptors/            # Response serialization
-├── validators/              # Custom validation rules
-└── main.ts                  # Application entry point
+├── src/                      # Source code
+│   ├── users/               # User management module
+│   │   ├── dtos/            # Data Transfer Objects
+│   │   ├── user.entity.ts   # User entity definition
+│   │   ├── users.controller.ts # User endpoints
+│   │   ├── users.service.ts # User business logic
+│   │   └── users.controller.docs.ts # API documentation
+│   ├── reports/             # Reports management module
+│   │   ├── dtos/            # Report DTOs
+│   │   ├── report.entity.ts # Report entity
+│   │   ├── reports.controller.ts # Report endpoints
+│   │   ├── reports.service.ts # Report business logic
+│   │   └── reports.controller.docs.ts # API documentation
+│   ├── guards/              # Authentication guards
+│   ├── interceptors/        # Response serialization
+│   ├── validators/          # Custom validation rules
+│   ├── config/              # Configuration files
+│   ├── types/               # TypeScript type definitions
+│   └── main.ts              # Application entry point
+├── test/                    # End-to-end tests
+│   ├── fixtures/            # Test data and fixtures
+│   ├── app.e2e-spec.ts      # Main E2E test suite
+│   ├── auth.e2e-spec.ts     # Authentication E2E tests
+│   ├── reports.e2e-spec.ts  # Reports E2E tests
+│   ├── setup.ts             # Test setup configuration
+│   └── jest-e2e.json        # Jest E2E configuration
+├── dev/                     # Development tools and scripts
+│   ├── db/                  # Database development files
+│   └── scripts/             # Development scripts
+├── docs/                    # Documentation images
+├── coverage/                # Test coverage reports
+└── dist/                    # Built application (generated)
 ```
 
 ## 🛠️ Development
@@ -355,7 +368,7 @@ ls -la .env
 
 # Verify file format (no spaces around =)
 cat .env
-````
+```
 
 #### Migration Issues
 
@@ -401,6 +414,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **⭐ If you found this project helpful, please give it a star!**
 
-Made with ❤️ by [Ivan Derlich](https://ivanderlich.com)
+Made for you with ❤️ by [Ivan Derlich](https://ivanderlich.com)
 
 </div>
