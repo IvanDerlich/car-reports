@@ -43,6 +43,10 @@ export class UsersService {
     return user;
   }
 
+  async findAll() {
+    return this.repo.find();
+  }
+
   async update(id: number, attributes: Partial<User>) {
     const user = await this.repo.findOneBy({ id });
     if (!user) {

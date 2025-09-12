@@ -33,6 +33,7 @@ import {
   FindAllUsersDocs,
   RemoveUserDocs,
   UpdateUserDocs,
+  FindAllUserByEmailsDocs,
 } from './users.controller.docs';
 import { AdminGuard } from '@/guards/admin.guard';
 
@@ -89,6 +90,15 @@ export class UsersController {
     return { message: 'Signed out successfully' };
   }
 
+  // Place this method before @Get(':id') method to avoing looking for a user with an 'all' id
+  @Serialize(UserDto)
+  @Get('all')
+  @UseGuards(AdminGuard)
+  @FindAllUsersDocs()
+  findAllUsers() {
+    return this.usersService.findAll();
+  }
+
   @Serialize(UserDto)
   @Get(':id')
   @UseGuards(AdminGuard)
@@ -100,7 +110,7 @@ export class UsersController {
   @Serialize(UserDto)
   @Get()
   @UseGuards(AdminGuard)
-  @FindAllUsersDocs()
+  @FindAllUserByEmailsDocs()
   findAllUsersByEmail(@Query('email') email: string): Promise<User[]> {
     return this.usersService.find(email);
   }
