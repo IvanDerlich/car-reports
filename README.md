@@ -335,9 +335,7 @@ Contributions are welcomed! Please follow these steps:
 - Follow the existing code style
 - Update documentation as needed
 
-## 🔧 Troubleshooting
-
-### Common Issues
+## 🔧 Troubleshooting common Issues
 
 #### Database Connection Issues
 
@@ -348,12 +346,6 @@ ls -la *.sqlite
 # Check permissions
 chmod 644 your-database.sqlite
 ```
-
-# Kill the process
-
-kill -9 <PID>
-
-````
 
 #### Environment Variables Not Loading
 
@@ -377,7 +369,7 @@ npm run migrations:run
 
 - 📧 **Email**: [a@ivanderlich.com](mailto:a@ivanderlich.com)
 - 🐛 **Issues**: [GitHub Issues](https://github.com/IvanDerlich/car-reports/issues)
-- 📖 **Documentation**: [Swagger UI](http://localhost:3000/api)
+- 📖 **Documentation**: [Swagger UI ](http://localhost:3000/api): You can access this only if the server is running locally
 
 ## 🚀 Future Improvements
 
