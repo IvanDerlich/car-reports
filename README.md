@@ -288,6 +288,8 @@ SELECT * FROM migrations;
 
 ## ⚙️ Environment Variables
 
+These variables should be present in both the .env file for local usage and the .env.test file for testing
+
 | Variable     | Description                       | Required | Default       |
 | ------------ | --------------------------------- | -------- | ------------- |
 | `COOKIE_KEY` | Secret key for session encryption | ✅       | -             |
