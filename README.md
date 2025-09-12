@@ -239,7 +239,6 @@ npm run test:e2e
 # Test coverage for both unit and e2e tests
 npm run test:cov
 
-
 # Watch mode
 npm run test:watch
 ```
