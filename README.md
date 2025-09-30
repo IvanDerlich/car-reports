@@ -1,11 +1,13 @@
 # 🚗 Car Reports API
 
+<p id="description-car-reports-api"> A robust NestJS-based API for managing car reports with intelligent price estimation, user authentication, and comprehensive reporting functionality.</p>
+
+<hr>
+
 [![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](/LICENSE)
-
-> A robust NestJS-based API for managing car reports with intelligent price estimation, user authentication, and comprehensive reporting functionality.
 
 ## 📋 Table of Contents
 
@@ -311,25 +313,19 @@ These variables should be present in both the .env file for local usage and the 
 
 ## 🛠️ Technologies
 
-### Backend Stack
-
-- **[NestJS](https://nestjs.com/)** - Progressive Node.js framework
-- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
-- **[TypeORM](https://typeorm.io/)** - Object-Relational Mapping
-- **[SQLite](https://www.sqlite.org/)** - Lightweight database
-
-### Development Tools
-
-- **[Jest](https://jestjs.io/)** - Testing framework
-- **[Swagger](https://swagger.io/)** - API documentation
-- **[Prettier](https://prettier.io/)** - Code formatting
-- **[ESLint](https://eslint.org/)** - Code linting
-
-### Security & Validation
-
-- **[Argon2](https://github.com/ranisalt/node-argon2)** - Password hashing
-- **[class-validator](https://github.com/typestack/class-validator)** - Input validation
-- **[cookie-session](https://github.com/expressjs/cookie-session)** - Session management
+<ul id="tech-list-car-reports-api">
+   <li>NestJS</li>
+   <li>TypeScript</li>
+   <li>TypeORM</li>
+   <li>SQLite</li>
+   <li>Jest</li>
+   <li>Swagger</li>
+   <li>Prettier</li>
+   <li>ESLint</li>
+   <li>Argon2</li>
+   <li>class-validator</li>
+   <li>cookie-session</li>
+</ul>
 
 ## 🤝 Contributing
 
