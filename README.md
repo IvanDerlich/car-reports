@@ -2,6 +2,10 @@
 
 <p id="description-car-reports-api"> A robust NestJS-based API for managing car reports with intelligent price estimation, user authentication, and comprehensive reporting functionality.</p>
 
+## Example
+
+<img src="docs/1.gif" alt="Video Example">
+
 <hr>
 
 [![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
